@@ -731,7 +731,7 @@ functionptrtype get_prompt_string(int *actual, bool allow_tabs,
 #endif
 	const char *curranswer,
 #ifndef DISABLE_HISTORIES
-	filestruct **history_list,
+	linestruct **history_list,
 #endif
 	void (*refresh_func)(void))
 {
@@ -963,7 +963,7 @@ int do_prompt(bool allow_tabs,
 #endif
 	int menu, const char *curranswer,
 #ifndef DISABLE_HISTORIES
-	filestruct **history_list,
+	linestruct **history_list,
 #endif
 	void (*refresh_func)(void), const char *msg, ...)
 {

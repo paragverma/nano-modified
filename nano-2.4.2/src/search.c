@@ -257,7 +257,7 @@ bool findnextstr(
 #ifndef DISABLE_SPELLER
 	bool whole_word_only,
 #endif
-	const filestruct *begin, size_t begin_x,
+	const linestruct *begin, size_t begin_x,
 	const char *needle, size_t *needle_len)
 {
     size_t found_len;
@@ -265,7 +265,7 @@ bool findnextstr(
     size_t current_x_find = 0;
 	/* The location in the current line of the match we find. */
     ssize_t current_y_find = openfile->current_y;
-    filestruct *fileptr = openfile->current;
+    linestruct *fileptr = openfile->current;
     const char *rev_start = fileptr->data, *found = NULL;
     time_t lastkbcheck = time(NULL);
 
@@ -419,7 +419,7 @@ void findnextstr_wrap_reset(void)
 /* Search for a string. */
 void do_search(void)
 {
-    filestruct *fileptr = openfile->current;
+    linestruct *fileptr = openfile->current;
     size_t fileptr_x = openfile->current_x;
     size_t pww_save = openfile->placewewant;
     int i;
@@ -478,7 +478,7 @@ void do_search(void)
 /* Search for the last string without prompting. */
 void do_research(void)
 {
-    filestruct *fileptr = openfile->current;
+    linestruct *fileptr = openfile->current;
     size_t fileptr_x = openfile->current_x;
     size_t pww_save = openfile->placewewant;
     bool didfind;
@@ -625,7 +625,7 @@ ssize_t do_replace_loop(
 #ifndef DISABLE_SPELLER
 	bool whole_word_only,
 #endif
-	bool *canceled, const filestruct *real_current, size_t
+	bool *canceled, const linestruct *real_current, size_t
 	*real_current_x, const char *needle)
 {
     ssize_t numreplaced = -1;
@@ -633,7 +633,7 @@ ssize_t do_replace_loop(
     bool replaceall = FALSE;
 #ifndef NANO_TINY
     bool old_mark_set = openfile->mark_set;
-    filestruct *top, *bot;
+    linestruct *top, *bot;
     size_t top_x, bot_x;
     bool right_side_up = FALSE;
 	/* TRUE if (mark_begin, mark_begin_x) is the top of the mark,
@@ -641,8 +641,8 @@ ssize_t do_replace_loop(
 
     if (old_mark_set) {
 	/* If the mark is on, frame the region, and turn the mark off. */
-	mark_order((const filestruct **)&top, &top_x,
-	    (const filestruct **)&bot, &bot_x, &right_side_up);
+	mark_order((const linestruct **)&top, &top_x,
+	    (const linestruct **)&bot, &bot_x, &right_side_up);
 	openfile->mark_set = FALSE;
 
 	/* Start either at the top or the bottom of the marked region. */
@@ -815,7 +815,7 @@ ssize_t do_replace_loop(
 /* Replace a string. */
 void do_replace(void)
 {
-    filestruct *edittop_save, *begin;
+    linestruct *edittop_save, *begin;
     size_t begin_x, pww_save;
     ssize_t numreplaced;
     int i;
@@ -1034,7 +1034,7 @@ void do_gotopos(ssize_t pos_line, size_t pos_x, ssize_t pos_y, size_t
  * we found a match, and FALSE otherwise. */
 bool find_bracket_match(bool reverse, const char *bracket_set)
 {
-    filestruct *fileptr = openfile->current;
+    linestruct *fileptr = openfile->current;
     const char *rev_start = NULL, *found = NULL;
     ssize_t current_y_find = openfile->current_y;
 
@@ -1090,7 +1090,7 @@ bool find_bracket_match(bool reverse, const char *bracket_set)
  * there is one. */
 void do_find_bracket(void)
 {
-    filestruct *current_save;
+    linestruct *current_save;
     size_t current_x_save, pww_save;
     const char *ch;
 	/* The location in matchbrackets of the bracket at the current
@@ -1227,7 +1227,7 @@ void history_init(void)
 }
 
 /* Set the current position in the history list h to the bottom. */
-void history_reset(const filestruct *h)
+void history_reset(const linestruct *h)
 {
     if (h == search_history)
 	search_history = searchbot;
@@ -1238,14 +1238,14 @@ void history_reset(const filestruct *h)
 /* Return the first node containing the first len characters of the
  * string s in the history list, starting at h_start and ending at
  * h_end, or NULL if there isn't one. */
-filestruct *find_history(const filestruct *h_start, const filestruct
+linestruct *find_history(const linestruct *h_start, const linestruct
 	*h_end, const char *s, size_t len)
 {
-    const filestruct *p;
+    const linestruct *p;
 
     for (p = h_start; p != h_end->next && p != NULL; p = p->next) {
 	if (strncmp(s, p->data, len) == 0)
-	    return (filestruct *)p;
+	    return (linestruct *)p;
     }
 
     return NULL;
@@ -1253,9 +1253,9 @@ filestruct *find_history(const filestruct *h_start, const filestruct
 
 /* Update a history list.  h should be the current position in the
  * list. */
-void update_history(filestruct **h, const char *s)
+void update_history(linestruct **h, const char *s)
 {
-    filestruct **hage = NULL, **hbot = NULL, *p;
+    linestruct **hage = NULL, **hbot = NULL, *p;
 
     assert(h != NULL && s != NULL);
 
@@ -1273,7 +1273,7 @@ void update_history(filestruct **h, const char *s)
     p = find_history(*hage, *hbot, s, strlen(s));
 
     if (p != NULL) {
-	filestruct *foo, *bar;
+	linestruct *foo, *bar;
 
 	/* If the string is at the beginning, move the beginning down to
 	 * the next string. */
@@ -1292,7 +1292,7 @@ void update_history(filestruct **h, const char *s)
      * for the new entry at the end.  We assume that MAX_SEARCH_HISTORY
      * is greater than zero. */
     if ((*hbot)->lineno == MAX_SEARCH_HISTORY + 1) {
-	filestruct *foo = *hage;
+	linestruct *foo = *hage;
 
 	*hage = (*hage)->next;
 	unlink_node(foo);
@@ -1315,7 +1315,7 @@ void update_history(filestruct **h, const char *s)
 
 /* Move h to the string in the history list just before it, and return
  * that string.  If there isn't one, don't move h and return NULL. */
-char *get_history_older(filestruct **h)
+char *get_history_older(linestruct **h)
 {
     assert(h != NULL);
 
@@ -1329,7 +1329,7 @@ char *get_history_older(filestruct **h)
 
 /* Move h to the string in the history list just after it, and return
  * that string.  If there isn't one, don't move h and return NULL. */
-char *get_history_newer(filestruct **h)
+char *get_history_newer(linestruct **h)
 {
     assert(h != NULL);
 
@@ -1356,12 +1356,12 @@ void get_history_older_void(void)
  * looking at only the first len characters of s, and return that
  * string.  If there isn't one, or if len is 0, don't move h and return
  * s. */
-char *get_history_completion(filestruct **h, const char *s, size_t len)
+char *get_history_completion(linestruct **h, const char *s, size_t len)
 {
     assert(s != NULL);
 
     if (len > 0) {
-	filestruct *hage = NULL, *hbot = NULL, *p;
+	linestruct *hage = NULL, *hbot = NULL, *p;
 
 	assert(h != NULL);
 

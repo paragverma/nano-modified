@@ -72,11 +72,11 @@ int editwinrows = 0;
 int maxrows = 0;
 	/* How many usable lines there are (due to soft wrapping). */
 
-filestruct *cutbuffer = NULL;
+linestruct *cutbuffer = NULL;
 	/* The buffer where we store cut text. */
-filestruct *cutbottom = NULL;
+linestruct *cutbottom = NULL;
 #ifndef DISABLE_JUSTIFY
-filestruct *jusbuffer = NULL;
+linestruct *jusbuffer = NULL;
 	/* The buffer where we store unjustified text. */
 #endif
 partition *filepart = NULL;
@@ -177,17 +177,17 @@ subnfunc *uncutfunc;
 	/* Pointer to the special Uncut/Unjustify item. */
 
 #ifndef DISABLE_HISTORIES
-filestruct *search_history = NULL;
+linestruct *search_history = NULL;
 	/* The search string history list. */
-filestruct *searchage = NULL;
+linestruct *searchage = NULL;
 	/* The top of the search string history list. */
-filestruct *searchbot = NULL;
+linestruct *searchbot = NULL;
 	/* The bottom of the search string history list. */
-filestruct *replace_history = NULL;
+linestruct *replace_history = NULL;
 	/* The replace string history list. */
-filestruct *replaceage = NULL;
+linestruct *replaceage = NULL;
 	/* The top of the replace string history list. */
-filestruct *replacebot = NULL;
+linestruct *replacebot = NULL;
 	/* The bottom of the replace string history list. */
 poshiststruct *poshistory;
 	/* The cursor position history list. */

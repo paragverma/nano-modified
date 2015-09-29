@@ -148,7 +148,7 @@ void do_page_down(void)
  * afterwards. */
 void do_para_begin(bool allow_update)
 {
-    filestruct *current_save = openfile->current;
+    linestruct *current_save = openfile->current;
     const size_t pww_save = openfile->placewewant;
 
     if (openfile->current != openfile->fileage) {
@@ -180,7 +180,7 @@ void do_para_begin_void(void)
  * paragraph or isn't in a paragraph. */
 void do_para_end(bool allow_update)
 {
-    filestruct *const current_save = openfile->current;
+    linestruct *const current_save = openfile->current;
     const size_t pww_save = openfile->placewewant;
 
     while (openfile->current != openfile->filebot &&
@@ -224,7 +224,7 @@ void do_para_end_void(void)
 bool do_next_word(bool allow_punct, bool allow_update)
 {
     size_t pww_save = openfile->placewewant;
-    filestruct *current_save = openfile->current;
+    linestruct *current_save = openfile->current;
     char *char_mb;
     int char_mb_len;
     bool end_line = FALSE, started_on_word = FALSE;
@@ -319,7 +319,7 @@ void do_next_word_void(void)
 bool do_prev_word(bool allow_punct, bool allow_update)
 {
     size_t pww_save = openfile->placewewant;
-    filestruct *current_save = openfile->current;
+    linestruct *current_save = openfile->current;
     char *char_mb;
     int char_mb_len;
     bool begin_line = FALSE, started_on_word = FALSE;
@@ -570,7 +570,7 @@ void do_down(
 {
 #ifndef NANO_TINY
     int amount = 0, enough;
-    filestruct *topline;
+    linestruct *topline;
 #endif
 
     /* If we're at the bottom of the file, get out. */

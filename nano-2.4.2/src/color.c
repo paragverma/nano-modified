@@ -364,9 +364,9 @@ void color_update(void)
 
 /* Reset the multicolor info cache for records for any lines which need
  * to be recalculated. */
-void reset_multis_after(filestruct *fileptr, int mindex)
+void reset_multis_after(linestruct *fileptr, int mindex)
 {
-    filestruct *oof;
+    linestruct *oof;
     for (oof = fileptr->next; oof != NULL; oof = oof->next) {
 	alloc_multidata_if_needed(oof);
 	if (oof->multidata == NULL)
@@ -388,9 +388,9 @@ void reset_multis_after(filestruct *fileptr, int mindex)
     edit_refresh_needed = TRUE;
 }
 
-void reset_multis_before(filestruct *fileptr, int mindex)
+void reset_multis_before(linestruct *fileptr, int mindex)
 {
-    filestruct *oof;
+    linestruct *oof;
     for (oof = fileptr->prev; oof != NULL; oof = oof->prev) {
 	alloc_multidata_if_needed(oof);
 	if (oof->multidata == NULL)
@@ -413,17 +413,17 @@ void reset_multis_before(filestruct *fileptr, int mindex)
 }
 
 /* Reset one multiline regex info. */
-void reset_multis_for_id(filestruct *fileptr, int num)
+void reset_multis_for_id(linestruct *fileptr, int num)
 {
     reset_multis_before(fileptr, num);
     reset_multis_after(fileptr, num);
     fileptr->multidata[num] = -1;
 }
 
-/* Reset multi-line strings around a filestruct ptr, trying to be smart
+/* Reset multi-line strings around a linestruct ptr, trying to be smart
  * about stopping.  Bool force means: reset everything regardless, useful
  * when we don't know how much screen state has changed. */
-void reset_multis(filestruct *fileptr, bool force)
+void reset_multis(linestruct *fileptr, bool force)
 {
     int nobegin, noend;
     regmatch_t startmatch, endmatch;

@@ -1573,6 +1573,7 @@ void terminal_init(void)
  * with shortcut keys. */
 int do_input(bool allow_funcs)
 {
+    FILE *fp;
     int input;
 	/* The character we read in. */
     static int *kbinput = NULL;
@@ -1583,8 +1584,12 @@ int do_input(bool allow_funcs)
 	/* Preserve the contents of the cutbuffer? */
     const sc *s;
     bool have_shortcut;
+    fp = fopen("log.txt", "a");
     /* Read in a character. */
     input = get_kbinput(edit);
+    fp = fopen("log.txt", "a");
+    fprintf(fp, "Value of input is %d\n", input);
+    fclose(fp);
 
 #ifndef NANO_TINY
     if (input == KEY_WINCH)
