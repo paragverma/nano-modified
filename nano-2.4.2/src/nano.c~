@@ -1,3 +1,4 @@
+/* $Id: nano.c 5265 2015-06-20 18:48:43Z bens $ */
 /**************************************************************************
  *   nano.c                                                               *
  *                                                                        *
@@ -102,42 +103,16 @@ void freemcarray(mcarray *p){
 	return;
 }
 
-/*Will return number of cursors placed in that line*/
-int check_ycor_mcandcc(mcarray *p, ssize_t curry){
+int checkmcandcc(mcarray *p, size_t currx, ssize_t curry){
     int i, j;
-    int nofc = 0;
     mcpositions *q = p->head;
     
-    while(q != NULL){
-        if(q->ycor == curry) nofc++;
+    while(q){
+        if(q->xcor == currx && q->ycor == curry) return 1;
         q = q->next;
     }
     
-    return nofc;
-}
-/*
-q = (0,0) (1,1) (1,5)
-c
-0 1 2 3 4 5 6
-  c       c       xco = 1, yco = 1  
-0 1 2 3 4 5 6
-0 1 2 3 4 5 6
-0 1 2 3 4 5 6
-0 1 2 3 4 5 6
- */
-/*Increments xcors of all cursors in front the the current cursor int the same line by 1*/
-void increment_xcor_f_sl(mcarray *p, ssize_t yco, size_t xco){
-    mcpositions *q = p->head;
-    FILE *fp;
-     fp = fopen("printxcorincre.txt", "a");
-     while(q != NULL){
-        fprintf(fp, "Recieved pivots xco  %d and yco %d\nChecking q->xcor %d q->y_cor %d\n", xco, yco, q->xcor, q->ycor);
-        if(q->ycor == yco)
-            if(q->xcor > xco + 1){ fprintf(fp, "lineno %d matched the xcor to be incremented is   %d\n", q->ycor, q->xcor); q->xcor++; } 
-        q = q->next;
-    }
-     fclose(fp);
-    return;
+    return 0;
 }
 
 void printoptocursors(mcarray *p, size_t kbinput_len, char* output){
@@ -165,12 +140,11 @@ void printoptocursors(mcarray *p, size_t kbinput_len, char* output){
                         continue;
                 }
                 */
-                fprintf(fp, "x coordinate of first cursor is %d and y coordinate is %d\n", q->xcor, q->ycor);
 		x = q->xcor++;
 		y = q->ycor;
-
-                
- 
+                if(y == openfile->filebot->lineno) c_at_lastline += 1;
+                fprintf(fp, "c_at_lastline is  %d and openfile->filebot->lineno is %d \n", c_at_lastline, openfile->filebot->lineno);
+                fprintf(fp, "x coordinate of first element is %d and second element is %d\n", q->xcor, q->ycor);
                 /*if(openfile->filebot->lineno < j){
                     q = q->next;
                         continue;
@@ -178,6 +152,7 @@ void printoptocursors(mcarray *p, size_t kbinput_len, char* output){
                 else*/
                     for(j = 0; j < y; j++){
                         do_down_void();
+                        f = f->next;
                     }
 		
                 /*if(strlen(openfile->current->data) - 1 < i){
@@ -188,13 +163,13 @@ void printoptocursors(mcarray *p, size_t kbinput_len, char* output){
                     for(i = 0; i < x; i++){
                         do_right();
                     }
-                increment_xcor_f_sl(p, y, x);
 		do_output(output, kbinput_len, FALSE);
-
+                
                 
               q = q->next;
             }
-        
+                
+                
         /*Move cursor to original position*/
         do_first_line();
                     for(j = 0; j < y_orig; j++){
@@ -203,11 +178,8 @@ void printoptocursors(mcarray *p, size_t kbinput_len, char* output){
                     for(i = 0; i < x_orig; i++){
                         do_right();
                     }
-                    for(i = 0; i < check_ycor_mcandcc(p, y_orig); i++){
-                        do_right();
-                    }
-                    //if(check_ycor_mcandcc(p, y_orig) == 1) do_right();
-                    fprintf(fp, "checkmcandcc %d\n", check_ycor_mcandcc(p, y_orig));
+                    if(c_at_lastline != 0) do_right();
+                
         fclose(fp);
         return;
 }
@@ -1766,7 +1738,6 @@ int do_input(bool allow_funcs)
 		mcflag = 0;
                 nofmc = 0;
 		freemcarray(&mcarr);
-                initmcarray(&mcarr);
 		statusbar(_("Cursors freed"));
 	    	beep();
 	    	//input = get_kbinput(edit);

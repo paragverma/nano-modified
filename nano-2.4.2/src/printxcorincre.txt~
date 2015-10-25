@@ -1,0 +1,44 @@
+Recieved pivots xco  1 and yco 0
+Checking q->xcor 2 q->y_cor 0
+lineno 0 matched the xcor to be incremented is   2
+Recieved pivots xco  1 and yco 0
+Checking q->xcor 1 q->y_cor 1
+Recieved pivots xco  1 and yco 0
+Checking q->xcor 5 q->y_cor 1
+Recieved pivots xco  1 and yco 1
+Checking q->xcor 3 q->y_cor 0
+Recieved pivots xco  1 and yco 1
+Checking q->xcor 2 q->y_cor 1
+lineno 1 matched the xcor to be incremented is   2
+Recieved pivots xco  1 and yco 1
+Checking q->xcor 5 q->y_cor 1
+lineno 1 matched the xcor to be incremented is   5
+Recieved pivots xco  6 and yco 1
+Checking q->xcor 3 q->y_cor 0
+Recieved pivots xco  6 and yco 1
+Checking q->xcor 3 q->y_cor 1
+Recieved pivots xco  6 and yco 1
+Checking q->xcor 7 q->y_cor 1
+lineno 1 matched the xcor to be incremented is   7
+Recieved pivots xco  3 and yco 0
+Checking q->xcor 4 q->y_cor 0
+lineno 0 matched the xcor to be incremented is   4
+Recieved pivots xco  3 and yco 0
+Checking q->xcor 3 q->y_cor 1
+Recieved pivots xco  3 and yco 0
+Checking q->xcor 8 q->y_cor 1
+Recieved pivots xco  3 and yco 1
+Checking q->xcor 5 q->y_cor 0
+Recieved pivots xco  3 and yco 1
+Checking q->xcor 4 q->y_cor 1
+lineno 1 matched the xcor to be incremented is   4
+Recieved pivots xco  3 and yco 1
+Checking q->xcor 8 q->y_cor 1
+lineno 1 matched the xcor to be incremented is   8
+Recieved pivots xco  9 and yco 1
+Checking q->xcor 5 q->y_cor 0
+Recieved pivots xco  9 and yco 1
+Checking q->xcor 5 q->y_cor 1
+Recieved pivots xco  9 and yco 1
+Checking q->xcor 10 q->y_cor 1
+lineno 1 matched the xcor to be incremented is   10

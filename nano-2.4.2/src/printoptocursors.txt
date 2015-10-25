@@ -1,0 +1,493 @@
+the ycor of last line is  5
+x coordinate of first cursor is 0 and y coordinate is 0
+x coordinate of first cursor is 1 and y coordinate is 1
+x coordinate of first cursor is 7 and y coordinate is 1
+checkmcandcc 0
+the ycor of last line is  5
+x coordinate of first cursor is 2 and y coordinate is 0
+x coordinate of first cursor is 3 and y coordinate is 1
+x coordinate of first cursor is 10 and y coordinate is 1
+checkmcandcc 0
+the ycor of last line is  5
+x coordinate of first cursor is 0 and y coordinate is 0
+x coordinate of first cursor is 1 and y coordinate is 1
+x coordinate of first cursor is 9 and y coordinate is 1
+checkmcandcc 0
+the ycor of last line is  5
+x coordinate of first cursor is 1 and y coordinate is 0
+x coordinate of first cursor is 2 and y coordinate is 1
+x coordinate of first cursor is 11 and y coordinate is 1
+checkmcandcc 0
+the ycor of last line is  5
+x coordinate of first cursor is 2 and y coordinate is 0
+x coordinate of first cursor is 3 and y coordinate is 1
+x coordinate of first cursor is 13 and y coordinate is 1
+checkmcandcc 0
+the ycor of last line is  5
+x coordinate of first cursor is 3 and y coordinate is 0
+x coordinate of first cursor is 4 and y coordinate is 1
+x coordinate of first cursor is 15 and y coordinate is 1
+checkmcandcc 0
+the ycor of last line is  5
+x coordinate of first cursor is 4 and y coordinate is 0
+x coordinate of first cursor is 5 and y coordinate is 1
+x coordinate of first cursor is 17 and y coordinate is 1
+checkmcandcc 0
+the ycor of last line is  5
+x coordinate of first cursor is 5 and y coordinate is 0
+x coordinate of first cursor is 6 and y coordinate is 1
+x coordinate of first cursor is 19 and y coordinate is 1
+checkmcandcc 0
+the ycor of last line is  5
+x coordinate of first cursor is 6 and y coordinate is 0
+x coordinate of first cursor is 7 and y coordinate is 1
+x coordinate of first cursor is 21 and y coordinate is 1
+checkmcandcc 0
+the ycor of last line is  5
+x coordinate of first cursor is 7 and y coordinate is 0
+x coordinate of first cursor is 8 and y coordinate is 1
+x coordinate of first cursor is 23 and y coordinate is 1
+checkmcandcc 0
+the ycor of last line is  5
+x coordinate of first cursor is 8 and y coordinate is 0
+x coordinate of first cursor is 9 and y coordinate is 1
+x coordinate of first cursor is 25 and y coordinate is 1
+checkmcandcc 0
+the ycor of last line is  5
+x coordinate of first cursor is 9 and y coordinate is 0
+x coordinate of first cursor is 10 and y coordinate is 1
+x coordinate of first cursor is 27 and y coordinate is 1
+checkmcandcc 0
+the ycor of last line is  5
+x coordinate of first cursor is 10 and y coordinate is 0
+x coordinate of first cursor is 11 and y coordinate is 1
+x coordinate of first cursor is 29 and y coordinate is 1
+checkmcandcc 0
+the ycor of last line is  5
+x coordinate of first cursor is 11 and y coordinate is 0
+x coordinate of first cursor is 12 and y coordinate is 1
+x coordinate of first cursor is 31 and y coordinate is 1
+checkmcandcc 0
+the ycor of last line is  5
+x coordinate of first cursor is 12 and y coordinate is 0
+x coordinate of first cursor is 9 and y coordinate is 1
+checkmcandcc 0
+the ycor of last line is  5
+x coordinate of first cursor is 13 and y coordinate is 0
+x coordinate of first cursor is 10 and y coordinate is 1
+checkmcandcc 0
+the ycor of last line is  5
+x coordinate of first cursor is 14 and y coordinate is 0
+x coordinate of first cursor is 11 and y coordinate is 1
+checkmcandcc 0
+the ycor of last line is  5
+x coordinate of first cursor is 15 and y coordinate is 0
+x coordinate of first cursor is 12 and y coordinate is 1
+checkmcandcc 0
+the ycor of last line is  5
+x coordinate of first cursor is 16 and y coordinate is 0
+x coordinate of first cursor is 13 and y coordinate is 1
+checkmcandcc 0
+the ycor of last line is  5
+x coordinate of first cursor is 17 and y coordinate is 0
+x coordinate of first cursor is 14 and y coordinate is 1
+checkmcandcc 0
+the ycor of last line is  5
+x coordinate of first cursor is 18 and y coordinate is 0
+x coordinate of first cursor is 15 and y coordinate is 1
+checkmcandcc 0
+the ycor of last line is  5
+x coordinate of first cursor is 9 and y coordinate is 1
+x coordinate of first cursor is 4 and y coordinate is 3
+checkmcandcc 1
+the ycor of last line is  5
+x coordinate of first cursor is 10 and y coordinate is 1
+x coordinate of first cursor is 5 and y coordinate is 3
+checkmcandcc 1
+the ycor of last line is  5
+x coordinate of first cursor is 11 and y coordinate is 1
+x coordinate of first cursor is 6 and y coordinate is 3
+checkmcandcc 1
+the ycor of last line is  5
+x coordinate of first cursor is 12 and y coordinate is 1
+x coordinate of first cursor is 7 and y coordinate is 3
+checkmcandcc 1
+the ycor of last line is  5
+x coordinate of first cursor is 13 and y coordinate is 1
+x coordinate of first cursor is 8 and y coordinate is 3
+checkmcandcc 1
+the ycor of last line is  5
+x coordinate of first cursor is 14 and y coordinate is 1
+x coordinate of first cursor is 9 and y coordinate is 3
+checkmcandcc 1
+the ycor of last line is  5
+x coordinate of first cursor is 15 and y coordinate is 1
+x coordinate of first cursor is 10 and y coordinate is 3
+checkmcandcc 1
+the ycor of last line is  5
+x coordinate of first cursor is 4 and y coordinate is 0
+x coordinate of first cursor is 4 and y coordinate is 1
+x coordinate of first cursor is 16 and y coordinate is 1
+checkmcandcc 0
+the ycor of last line is  5
+x coordinate of first cursor is 5 and y coordinate is 0
+x coordinate of first cursor is 5 and y coordinate is 1
+x coordinate of first cursor is 18 and y coordinate is 1
+checkmcandcc 0
+the ycor of last line is  5
+x coordinate of first cursor is 6 and y coordinate is 0
+x coordinate of first cursor is 6 and y coordinate is 1
+x coordinate of first cursor is 20 and y coordinate is 1
+checkmcandcc 0
+the ycor of last line is  5
+x coordinate of first cursor is 7 and y coordinate is 0
+x coordinate of first cursor is 7 and y coordinate is 1
+x coordinate of first cursor is 22 and y coordinate is 1
+checkmcandcc 0
+the ycor of last line is  5
+x coordinate of first cursor is 8 and y coordinate is 0
+x coordinate of first cursor is 8 and y coordinate is 1
+x coordinate of first cursor is 24 and y coordinate is 1
+checkmcandcc 0
+the ycor of last line is  5
+x coordinate of first cursor is 9 and y coordinate is 0
+x coordinate of first cursor is 9 and y coordinate is 1
+x coordinate of first cursor is 26 and y coordinate is 1
+checkmcandcc 0
+the ycor of last line is  5
+x coordinate of first cursor is 10 and y coordinate is 0
+x coordinate of first cursor is 10 and y coordinate is 1
+x coordinate of first cursor is 28 and y coordinate is 1
+checkmcandcc 0
+the ycor of last line is  5
+x coordinate of first cursor is 11 and y coordinate is 0
+x coordinate of first cursor is 11 and y coordinate is 1
+x coordinate of first cursor is 30 and y coordinate is 1
+checkmcandcc 0
+the ycor of last line is  5
+x coordinate of first cursor is 11 and y coordinate is 0
+x coordinate of first cursor is 2 and y coordinate is 1
+x coordinate of first cursor is 16 and y coordinate is 1
+x coordinate of first cursor is 4 and y coordinate is 3
+x coordinate of first cursor is 13 and y coordinate is 3
+checkmcandcc 1
+the ycor of last line is  5
+x coordinate of first cursor is 12 and y coordinate is 0
+x coordinate of first cursor is 3 and y coordinate is 1
+x coordinate of first cursor is 18 and y coordinate is 1
+x coordinate of first cursor is 5 and y coordinate is 3
+x coordinate of first cursor is 15 and y coordinate is 3
+checkmcandcc 1
+the ycor of last line is  5
+x coordinate of first cursor is 13 and y coordinate is 0
+x coordinate of first cursor is 4 and y coordinate is 1
+x coordinate of first cursor is 20 and y coordinate is 1
+x coordinate of first cursor is 6 and y coordinate is 3
+x coordinate of first cursor is 17 and y coordinate is 3
+checkmcandcc 1
+the ycor of last line is  5
+x coordinate of first cursor is 14 and y coordinate is 0
+x coordinate of first cursor is 5 and y coordinate is 1
+x coordinate of first cursor is 22 and y coordinate is 1
+x coordinate of first cursor is 7 and y coordinate is 3
+x coordinate of first cursor is 19 and y coordinate is 3
+checkmcandcc 1
+the ycor of last line is  3
+x coordinate of first cursor is 2 and y coordinate is 0
+x coordinate of first cursor is 0 and y coordinate is 1
+x coordinate of first cursor is 13 and y coordinate is 1
+x coordinate of first cursor is 22 and y coordinate is 1
+checkmcandcc 1
+the ycor of last line is  3
+x coordinate of first cursor is 3 and y coordinate is 0
+x coordinate of first cursor is 1 and y coordinate is 1
+x coordinate of first cursor is 15 and y coordinate is 1
+x coordinate of first cursor is 25 and y coordinate is 1
+checkmcandcc 1
+the ycor of last line is  3
+x coordinate of first cursor is 4 and y coordinate is 0
+x coordinate of first cursor is 2 and y coordinate is 1
+x coordinate of first cursor is 17 and y coordinate is 1
+x coordinate of first cursor is 28 and y coordinate is 1
+checkmcandcc 1
+the ycor of last line is  3
+x coordinate of first cursor is 5 and y coordinate is 0
+x coordinate of first cursor is 3 and y coordinate is 1
+x coordinate of first cursor is 19 and y coordinate is 1
+x coordinate of first cursor is 31 and y coordinate is 1
+checkmcandcc 1
+the ycor of last line is  3
+x coordinate of first cursor is 15 and y coordinate is 0
+x coordinate of first cursor is 1 and y coordinate is 1
+x coordinate of first cursor is 15 and y coordinate is 1
+checkmcandcc 2
+the ycor of last line is  3
+x coordinate of first cursor is 16 and y coordinate is 0
+x coordinate of first cursor is 2 and y coordinate is 1
+x coordinate of first cursor is 17 and y coordinate is 1
+checkmcandcc 2
+the ycor of last line is  3
+x coordinate of first cursor is 17 and y coordinate is 0
+x coordinate of first cursor is 3 and y coordinate is 1
+x coordinate of first cursor is 19 and y coordinate is 1
+checkmcandcc 2
+the ycor of last line is  3
+x coordinate of first cursor is 18 and y coordinate is 0
+x coordinate of first cursor is 4 and y coordinate is 1
+x coordinate of first cursor is 21 and y coordinate is 1
+checkmcandcc 2
+the ycor of last line is  3
+x coordinate of first cursor is 19 and y coordinate is 0
+x coordinate of first cursor is 5 and y coordinate is 1
+x coordinate of first cursor is 23 and y coordinate is 1
+checkmcandcc 2
+the ycor of last line is  3
+x coordinate of first cursor is 20 and y coordinate is 0
+x coordinate of first cursor is 6 and y coordinate is 1
+x coordinate of first cursor is 25 and y coordinate is 1
+checkmcandcc 2
+the ycor of last line is  3
+x coordinate of first cursor is 21 and y coordinate is 0
+x coordinate of first cursor is 7 and y coordinate is 1
+x coordinate of first cursor is 27 and y coordinate is 1
+checkmcandcc 2
+the ycor of last line is  3
+x coordinate of first cursor is 6 and y coordinate is 0
+x coordinate of first cursor is 16 and y coordinate is 0
+x coordinate of first cursor is 4 and y coordinate is 1
+x coordinate of first cursor is 21 and y coordinate is 1
+x coordinate of first cursor is 36 and y coordinate is 1
+checkmcandcc 3
+the ycor of last line is  3
+x coordinate of first cursor is 7 and y coordinate is 0
+x coordinate of first cursor is 18 and y coordinate is 0
+x coordinate of first cursor is 5 and y coordinate is 1
+x coordinate of first cursor is 23 and y coordinate is 1
+x coordinate of first cursor is 39 and y coordinate is 1
+checkmcandcc 3
+the ycor of last line is  3
+x coordinate of first cursor is 8 and y coordinate is 0
+x coordinate of first cursor is 20 and y coordinate is 0
+x coordinate of first cursor is 6 and y coordinate is 1
+x coordinate of first cursor is 25 and y coordinate is 1
+x coordinate of first cursor is 42 and y coordinate is 1
+checkmcandcc 3
+the ycor of last line is  3
+x coordinate of first cursor is 9 and y coordinate is 0
+x coordinate of first cursor is 22 and y coordinate is 0
+x coordinate of first cursor is 7 and y coordinate is 1
+x coordinate of first cursor is 27 and y coordinate is 1
+x coordinate of first cursor is 45 and y coordinate is 1
+checkmcandcc 3
+the ycor of last line is  3
+x coordinate of first cursor is 10 and y coordinate is 0
+x coordinate of first cursor is 24 and y coordinate is 0
+x coordinate of first cursor is 8 and y coordinate is 1
+x coordinate of first cursor is 29 and y coordinate is 1
+x coordinate of first cursor is 48 and y coordinate is 1
+checkmcandcc 3
+the ycor of last line is  5
+x coordinate of first cursor is 1 and y coordinate is 0
+x coordinate of first cursor is 11 and y coordinate is 1
+x coordinate of first cursor is 3 and y coordinate is 2
+x coordinate of first cursor is 23 and y coordinate is 2
+x coordinate of first cursor is 7 and y coordinate is 3
+checkmcandcc 1
+the ycor of last line is  5
+x coordinate of first cursor is 2 and y coordinate is 0
+x coordinate of first cursor is 12 and y coordinate is 1
+x coordinate of first cursor is 4 and y coordinate is 2
+x coordinate of first cursor is 25 and y coordinate is 2
+x coordinate of first cursor is 8 and y coordinate is 3
+checkmcandcc 1
+the ycor of last line is  5
+x coordinate of first cursor is 3 and y coordinate is 0
+x coordinate of first cursor is 13 and y coordinate is 1
+x coordinate of first cursor is 5 and y coordinate is 2
+x coordinate of first cursor is 27 and y coordinate is 2
+x coordinate of first cursor is 9 and y coordinate is 3
+checkmcandcc 1
+the ycor of last line is  5
+x coordinate of first cursor is 4 and y coordinate is 0
+x coordinate of first cursor is 14 and y coordinate is 1
+x coordinate of first cursor is 6 and y coordinate is 2
+x coordinate of first cursor is 29 and y coordinate is 2
+x coordinate of first cursor is 10 and y coordinate is 3
+checkmcandcc 1
+the ycor of last line is  6
+x coordinate of first cursor is 4 and y coordinate is 4
+checkmcandcc 1
+the ycor of last line is  6
+x coordinate of first cursor is 5 and y coordinate is 4
+checkmcandcc 1
+the ycor of last line is  6
+x coordinate of first cursor is 6 and y coordinate is 4
+checkmcandcc 1
+the ycor of last line is  6
+x coordinate of first cursor is 7 and y coordinate is 4
+checkmcandcc 1
+the ycor of last line is  6
+x coordinate of first cursor is 8 and y coordinate is 4
+checkmcandcc 1
+the ycor of last line is  2
+x coordinate of first cursor is 41 and y coordinate is 0
+x coordinate of first cursor is 11 and y coordinate is 0
+checkmcandcc 2
+the ycor of last line is  2
+x coordinate of first cursor is 43 and y coordinate is 0
+x coordinate of first cursor is 12 and y coordinate is 0
+checkmcandcc 2
+the ycor of last line is  2
+x coordinate of first cursor is 45 and y coordinate is 0
+x coordinate of first cursor is 13 and y coordinate is 0
+checkmcandcc 2
+the ycor of last line is  2
+x coordinate of first cursor is 47 and y coordinate is 0
+x coordinate of first cursor is 14 and y coordinate is 0
+checkmcandcc 2
+the ycor of last line is  2
+x coordinate of first cursor is 49 and y coordinate is 0
+x coordinate of first cursor is 15 and y coordinate is 0
+checkmcandcc 2
+the ycor of last line is  2
+x coordinate of first cursor is 51 and y coordinate is 0
+x coordinate of first cursor is 16 and y coordinate is 0
+checkmcandcc 2
+the ycor of last line is  2
+x coordinate of first cursor is 53 and y coordinate is 0
+x coordinate of first cursor is 17 and y coordinate is 0
+checkmcandcc 2
+the ycor of last line is  2
+x coordinate of first cursor is 55 and y coordinate is 0
+x coordinate of first cursor is 18 and y coordinate is 0
+checkmcandcc 2
+the ycor of last line is  2
+x coordinate of first cursor is 57 and y coordinate is 0
+x coordinate of first cursor is 19 and y coordinate is 0
+checkmcandcc 2
+the ycor of last line is  2
+x coordinate of first cursor is 59 and y coordinate is 0
+x coordinate of first cursor is 20 and y coordinate is 0
+checkmcandcc 2
+the ycor of last line is  2
+x coordinate of first cursor is 61 and y coordinate is 0
+x coordinate of first cursor is 21 and y coordinate is 0
+checkmcandcc 2
+the ycor of last line is  2
+x coordinate of first cursor is 63 and y coordinate is 0
+x coordinate of first cursor is 22 and y coordinate is 0
+checkmcandcc 2
+the ycor of last line is  2
+x coordinate of first cursor is 65 and y coordinate is 0
+x coordinate of first cursor is 23 and y coordinate is 0
+checkmcandcc 2
+the ycor of last line is  2
+x coordinate of first cursor is 67 and y coordinate is 0
+x coordinate of first cursor is 24 and y coordinate is 0
+checkmcandcc 2
+the ycor of last line is  2
+x coordinate of first cursor is 69 and y coordinate is 0
+x coordinate of first cursor is 25 and y coordinate is 0
+checkmcandcc 2
+the ycor of last line is  4
+x coordinate of first cursor is 4 and y coordinate is 0
+x coordinate of first cursor is 7 and y coordinate is 1
+x coordinate of first cursor is 4 and y coordinate is 2
+checkmcandcc 1
+the ycor of last line is  4
+x coordinate of first cursor is 5 and y coordinate is 0
+x coordinate of first cursor is 8 and y coordinate is 1
+x coordinate of first cursor is 5 and y coordinate is 2
+checkmcandcc 1
+the ycor of last line is  4
+x coordinate of first cursor is 6 and y coordinate is 0
+x coordinate of first cursor is 9 and y coordinate is 1
+x coordinate of first cursor is 6 and y coordinate is 2
+checkmcandcc 1
+the ycor of last line is  4
+x coordinate of first cursor is 7 and y coordinate is 0
+x coordinate of first cursor is 10 and y coordinate is 1
+x coordinate of first cursor is 7 and y coordinate is 2
+checkmcandcc 1
+the ycor of last line is  4
+x coordinate of first cursor is 8 and y coordinate is 0
+x coordinate of first cursor is 11 and y coordinate is 1
+x coordinate of first cursor is 8 and y coordinate is 2
+x coordinate of first cursor is 13 and y coordinate is 0
+checkmcandcc 2
+the ycor of last line is  4
+x coordinate of first cursor is 9 and y coordinate is 0
+x coordinate of first cursor is 12 and y coordinate is 1
+x coordinate of first cursor is 9 and y coordinate is 2
+x coordinate of first cursor is 15 and y coordinate is 0
+checkmcandcc 2
+the ycor of last line is  4
+x coordinate of first cursor is 10 and y coordinate is 0
+x coordinate of first cursor is 13 and y coordinate is 1
+x coordinate of first cursor is 10 and y coordinate is 2
+x coordinate of first cursor is 17 and y coordinate is 0
+checkmcandcc 2
+the ycor of last line is  4
+x coordinate of first cursor is 11 and y coordinate is 0
+x coordinate of first cursor is 14 and y coordinate is 1
+x coordinate of first cursor is 11 and y coordinate is 2
+x coordinate of first cursor is 19 and y coordinate is 0
+checkmcandcc 2
+the ycor of last line is  4
+x coordinate of first cursor is 12 and y coordinate is 0
+x coordinate of first cursor is 15 and y coordinate is 1
+x coordinate of first cursor is 12 and y coordinate is 2
+x coordinate of first cursor is 21 and y coordinate is 0
+checkmcandcc 2
+the ycor of last line is  2
+x coordinate of first cursor is 3 and y coordinate is 0
+x coordinate of first cursor is 12 and y coordinate is 0
+x coordinate of first cursor is 20 and y coordinate is 0
+checkmcandcc 3
+the ycor of last line is  2
+x coordinate of first cursor is 4 and y coordinate is 0
+x coordinate of first cursor is 14 and y coordinate is 0
+x coordinate of first cursor is 23 and y coordinate is 0
+checkmcandcc 3
+the ycor of last line is  2
+x coordinate of first cursor is 5 and y coordinate is 0
+x coordinate of first cursor is 16 and y coordinate is 0
+x coordinate of first cursor is 26 and y coordinate is 0
+checkmcandcc 3
+the ycor of last line is  2
+x coordinate of first cursor is 6 and y coordinate is 0
+x coordinate of first cursor is 18 and y coordinate is 0
+x coordinate of first cursor is 29 and y coordinate is 0
+checkmcandcc 3
+the ycor of last line is  2
+x coordinate of first cursor is 7 and y coordinate is 0
+x coordinate of first cursor is 20 and y coordinate is 0
+x coordinate of first cursor is 32 and y coordinate is 0
+checkmcandcc 3
+the ycor of last line is  2
+x coordinate of first cursor is 8 and y coordinate is 0
+x coordinate of first cursor is 22 and y coordinate is 0
+x coordinate of first cursor is 35 and y coordinate is 0
+checkmcandcc 3
+the ycor of last line is  2
+x coordinate of first cursor is 9 and y coordinate is 0
+x coordinate of first cursor is 24 and y coordinate is 0
+x coordinate of first cursor is 38 and y coordinate is 0
+checkmcandcc 3
+the ycor of last line is  2
+x coordinate of first cursor is 10 and y coordinate is 0
+x coordinate of first cursor is 26 and y coordinate is 0
+x coordinate of first cursor is 41 and y coordinate is 0
+checkmcandcc 3
+the ycor of last line is  4
+x coordinate of first cursor is 31 and y coordinate is 0
+checkmcandcc 1
+the ycor of last line is  4
+x coordinate of first cursor is 32 and y coordinate is 0
+checkmcandcc 1
+the ycor of last line is  4
+x coordinate of first cursor is 33 and y coordinate is 0
+checkmcandcc 1
+the ycor of last line is  4
+x coordinate of first cursor is 34 and y coordinate is 0
+checkmcandcc 1
