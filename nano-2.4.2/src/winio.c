@@ -326,6 +326,7 @@ int get_kbinput(WINDOW *win)
  * a function key. */
 int parse_kbinput(WINDOW *win)
 {
+    FILE *fp;
     static int escapes = 0, byte_digits = 0;
     int *kbinput, retval = ERR;
 
@@ -337,14 +338,27 @@ int parse_kbinput(WINDOW *win)
 	kbinput = get_input(win, 1);
 	if (kbinput == 0)
 	    return 0;
-    } else
+        if(*kbinput == 402 || *kbinput == 393) return *kbinput;
+        
+        fp = fopen("log_parse_kbinput.txt", "a");
+        fprintf(fp, "kbinput is now %d\n", *kbinput);
+        fclose(fp);
+    } 
+    else{
 	while ((kbinput = get_input(win, 1)) == NULL)
 	    ;
-
+        if(*kbinput == 402 || *kbinput == 393) return *kbinput;
+        fp = fopen("log_parse_kbinput.txt", "a");
+        fprintf(fp, "kbinput is now %d\n", *kbinput);
+        fclose(fp);
+        }
     switch (*kbinput) {
 	case ERR:
 	    break;
-	case NANO_CONTROL_3:
+	case NANO_CONTROL_3: /*NANO_CONTROL_3 is #defined as 27, the ascii for escape */
+                    fp = fopen("switch_nano_control_3.txt", "a");
+                    fprintf(fp, "switch mein NANO_CONTROL_3\n");
+                    fclose(fp);
 	    /* Increment the escape counter. */
 	    escapes++;
 	    switch (escapes) {
@@ -2416,7 +2430,7 @@ void reset_cursor(void)
 
 #ifndef NANO_TINY
     if (ISSET(SOFTWRAP)) {
-	filestruct *tmp;
+	linestruct *tmp;
 	openfile->current_y = 0;
 
 	for (tmp = openfile->edittop; tmp && tmp != openfile->current; tmp = tmp->next)
@@ -2444,7 +2458,7 @@ void reset_cursor(void)
  * character of this page.  That is, the first character of converted
  * corresponds to character number actual_x(fileptr->data, start) of the
  * line. */
-void edit_draw(filestruct *fileptr, const char *converted, int
+void edit_draw(linestruct *fileptr, const char *converted, int
 	line, size_t start)
 {
 #if !defined(NANO_TINY) || !defined(DISABLE_COLOR)
@@ -2566,11 +2580,11 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 		 * line after start_line matching the end.  If that line
 		 * is not before fileptr, then paint the beginning of
 		 * this line. */
-		const filestruct *start_line = fileptr->prev;
+		const linestruct *start_line = fileptr->prev;
 		    /* The first line before fileptr matching start. */
 		regoff_t start_col;
 		    /* Where it starts in that line. */
-		const filestruct *end_line;
+		const linestruct *end_line;
 		short md = fileptr->multidata[tmpcolor->id];
 
 		if (md == -1)
@@ -2773,11 +2787,11 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 	openfile->mark_begin->lineno || fileptr->lineno >=
 	openfile->current->lineno)) {
 	/* fileptr is at least partially selected. */
-	const filestruct *top;
+	const linestruct *top;
 	    /* Either current or mark_begin, whichever is first. */
 	size_t top_x;
 	    /* current_x or mark_begin_x, corresponding to top. */
-	const filestruct *bot;
+	const linestruct *bot;
 	size_t bot_x;
 	int x_start;
 	    /* Starting column for mvwaddnstr().  Zero-based. */
@@ -2841,7 +2855,7 @@ void edit_draw(filestruct *fileptr, const char *converted, int
  * for edit_draw().  The line will be displayed starting with
  * fileptr->data[index].  Likely arguments are current_x or zero.
  * Returns: Number of additional lines consumed (needed for SOFTWRAP). */
-int update_line(filestruct *fileptr, size_t index)
+int update_line(linestruct *fileptr, size_t index)
 {
     int line = 0;
 	/* The line in the edit window that we want to update. */
@@ -2855,7 +2869,7 @@ int update_line(filestruct *fileptr, size_t index)
 
 #ifndef NANO_TINY
     if (ISSET(SOFTWRAP)) {
-	filestruct *tmp;
+	linestruct *tmp;
 
 	for (tmp = openfile->edittop; tmp && tmp != fileptr; tmp = tmp->next)
 	    line += (strlenpt(tmp->data) / COLS) + 1;
@@ -2948,7 +2962,7 @@ bool need_screen_update(size_t pww_save)
 void compute_maxrows(void)
 {
     int n;
-    filestruct *foo = openfile->edittop;
+    linestruct *foo = openfile->edittop;
 
     if (!ISSET(SOFTWRAP)) {
 	maxrows = editwinrows;
@@ -2979,7 +2993,7 @@ void compute_maxrows(void)
 void edit_scroll(scroll_dir direction, ssize_t nlines)
 {
     ssize_t i;
-    filestruct *foo;
+    linestruct *foo;
     bool do_redraw = need_screen_update(0);
 
     /* Don't bother scrolling less than one line. */
@@ -3085,9 +3099,9 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
 
 /* Update any lines between old_current and current that need to be
  * updated.  Use this if we've moved without changing any text. */
-void edit_redraw(filestruct *old_current, size_t pww_save)
+void edit_redraw(linestruct *old_current, size_t pww_save)
 {
-    filestruct *foo = NULL;
+    linestruct *foo = NULL;
     bool do_redraw = need_screen_update(0) || need_screen_update(pww_save);
 
     /* If either old_current or current is offscreen, scroll the edit
@@ -3108,7 +3122,7 @@ void edit_redraw(filestruct *old_current, size_t pww_save)
 	 * whether we've scrolled up or down) of the edit window. */
 	if (openfile->mark_set) {
 	    ssize_t old_lineno;
-	    filestruct *old_edittop = openfile->edittop;
+	    linestruct *old_edittop = openfile->edittop;
 
 	    if (old_edittop->lineno < openfile->edittop->lineno)
 		old_lineno = old_edittop->lineno;
@@ -3182,7 +3196,7 @@ void edit_redraw(filestruct *old_current, size_t pww_save)
  * if we've moved and changed text. */
 void edit_refresh(void)
 {
-    filestruct *foo;
+    linestruct *foo;
     int nlines;
 
     /* Figure out what maxrows should really be. */
@@ -3225,7 +3239,7 @@ void edit_refresh(void)
  * below edittop. */
 void edit_update(update_type location)
 {
-    filestruct *foo = openfile->current;
+    linestruct *foo = openfile->current;
     int goal;
 
     /* If location is CENTER, we move edittop up (editwinrows / 2)
@@ -3307,7 +3321,7 @@ void display_main_list(void)
  * display the current cursor position next time. */
 void do_cursorpos(bool constant)
 {
-    filestruct *f;
+    linestruct *f;
     char c;
     size_t i, cur_xpt = xplustabs() + 1;
     size_t cur_lenpt = strlenpt(openfile->current->data) + 1;

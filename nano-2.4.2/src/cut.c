@@ -69,11 +69,11 @@ void cut_line(void)
  * current place we want to where the text used to start. */
 void cut_marked(void)
 {
-    filestruct *top, *bot;
+    linestruct *top, *bot;
     size_t top_x, bot_x;
 
-    mark_order((const filestruct **)&top, &top_x,
-	(const filestruct **)&bot, &bot_x, NULL);
+    mark_order((const linestruct **)&top, &top_x,
+	(const linestruct **)&bot, &bot_x, NULL);
 
     move_to_filestruct(&cutbuffer, &cutbottom, top, top_x, bot, bot_x);
     openfile->placewewant = xplustabs();
@@ -118,8 +118,8 @@ void cut_to_eof(void)
 }
 #endif /* !NANO_TINY */
 
-/* Move text from the current filestruct into the cutbuffer.  If
- * copy_text is TRUE, copy the text back into the filestruct afterward.
+/* Move text from the current linestruct into the cutbuffer.  If
+ * copy_text is TRUE, copy the text back into the linestruct afterward.
  * If cut_till_eof is TRUE, move all text from the current cursor
  * position to the end of the file into the cutbuffer. */
 void do_cut_text(
@@ -131,7 +131,7 @@ void do_cut_text(
 	)
 {
 #ifndef NANO_TINY
-    filestruct *cb_save = NULL;
+    linestruct *cb_save = NULL;
 	/* The current end of the cutbuffer, before we add text to
 	 * it. */
     size_t cb_save_len = 0;
@@ -194,7 +194,7 @@ void do_cut_text(
 #ifndef NANO_TINY
     if (copy_text) {
 	/* Copy the text in the cutbuffer, starting at its saved end if
-	 * there is one, back into the filestruct.  This effectively
+	 * there is one, back into the linestruct.  This effectively
 	 * uncuts the text we just cut without marking the file as
 	 * modified. */
 	if (cutbuffer != NULL) {
@@ -235,7 +235,7 @@ void do_cut_text(
 #endif
 }
 
-/* Move text from the current filestruct into the cutbuffer. */
+/* Move text from the current linestruct into the cutbuffer. */
 void do_cut_text_void(void)
 {
 #ifndef NANO_TINY
@@ -249,12 +249,12 @@ void do_cut_text_void(void)
 }
 
 #ifndef NANO_TINY
-/* Move text from the current filestruct into the cutbuffer, and copy it
- * back into the filestruct afterward.  If the mark is set or the cursor
+/* Move text from the current linestruct into the cutbuffer, and copy it
+ * back into the linestruct afterward.  If the mark is set or the cursor
  * was moved, blow away previous contents of the cutbuffer. */
 void do_copy_text(void)
 {
-    static struct filestruct *next_contiguous_line = NULL;
+    static struct linestruct *next_contiguous_line = NULL;
     bool mark_set = openfile->mark_set;
 
     if (mark_set || openfile->current != next_contiguous_line)
@@ -274,7 +274,7 @@ void do_cut_till_eof(void)
 }
 #endif /* !NANO_TINY */
 
-/* Copy text from the cutbuffer into the current filestruct. */
+/* Copy text from the cutbuffer into the current linestruct. */
 void do_uncut_text(void)
 {
     assert(openfile->current != NULL && openfile->current->data != NULL);
@@ -287,7 +287,7 @@ void do_uncut_text(void)
     add_undo(PASTE);
 #endif
 
-    /* Add a copy of the text in the cutbuffer to the current filestruct
+    /* Add a copy of the text in the cutbuffer to the current linestruct
      * at the current cursor position. */
     copy_from_filestruct(cutbuffer);
 

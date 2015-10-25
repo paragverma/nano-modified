@@ -56,11 +56,11 @@ static struct termios oldterm;
 static struct sigaction act;
 	/* Used to set up all our fun signal handlers. */
 
-/* Create a new filestruct node.  Note that we do not set prevnode->next
+/* Create a new linestruct node.  Note that we do not set prevnode->next
  * to the new line. */
-filestruct *make_new_node(filestruct *prevnode)
+linestruct *make_new_node(linestruct *prevnode)
 {
-    filestruct *newnode = (filestruct *)nmalloc(sizeof(filestruct));
+    linestruct *newnode = (linestruct *)nmalloc(sizeof(linestruct));
 
     newnode->data = NULL;
     newnode->prev = prevnode;
@@ -74,14 +74,14 @@ filestruct *make_new_node(filestruct *prevnode)
     return newnode;
 }
 
-/* Make a copy of a filestruct node. */
-filestruct *copy_node(const filestruct *src)
+/* Make a copy of a linestruct node. */
+linestruct *copy_node(const linestruct *src)
 {
-    filestruct *dst;
+    linestruct *dst;
 
     assert(src != NULL);
 
-    dst = (filestruct *)nmalloc(sizeof(filestruct));
+    dst = (linestruct *)nmalloc(sizeof(linestruct));
 
     dst->data = mallocstrcpy(NULL, src->data);
     dst->next = src->next;
@@ -94,8 +94,8 @@ filestruct *copy_node(const filestruct *src)
     return dst;
 }
 
-/* Splice a node into an existing filestruct. */
-void splice_node(filestruct *begin, filestruct *newnode, filestruct
+/* Splice a node into an existing linestruct. */
+void splice_node(linestruct *begin, linestruct *newnode, linestruct
 	*end)
 {
     assert(newnode != NULL && begin != NULL);
@@ -107,8 +107,8 @@ void splice_node(filestruct *begin, filestruct *newnode, filestruct
 	end->prev = newnode;
 }
 
-/* Unlink a node from the rest of the filestruct. */
-void unlink_node(const filestruct *fileptr)
+/* Unlink a node from the rest of the linestruct. */
+void unlink_node(const linestruct *fileptr)
 {
     assert(fileptr != NULL);
 
@@ -118,8 +118,8 @@ void unlink_node(const filestruct *fileptr)
 	fileptr->next->prev = fileptr->prev;
 }
 
-/* Delete a node from the filestruct. */
-void delete_node(filestruct *fileptr)
+/* Delete a node from the linestruct. */
+void delete_node(linestruct *fileptr)
 {
     assert(fileptr != NULL && fileptr->data != NULL);
 
@@ -130,10 +130,10 @@ void delete_node(filestruct *fileptr)
     free(fileptr);
 }
 
-/* Duplicate a whole filestruct. */
-filestruct *copy_filestruct(const filestruct *src)
+/* Duplicate a whole linestruct. */
+linestruct *copy_filestruct(const linestruct *src)
 {
-    filestruct *head, *copy;
+    linestruct *head, *copy;
 
     assert(src != NULL);
 
@@ -155,8 +155,8 @@ filestruct *copy_filestruct(const filestruct *src)
     return head;
 }
 
-/* Free a filestruct. */
-void free_filestruct(filestruct *src)
+/* Free a linestruct. */
+void free_filestruct(linestruct *src)
 {
     assert(src != NULL);
 
@@ -168,8 +168,8 @@ void free_filestruct(filestruct *src)
     delete_node(src);
 }
 
-/* Renumber all entries in a filestruct, starting with fileptr. */
-void renumber(filestruct *fileptr)
+/* Renumber all entries in a linestruct, starting with fileptr. */
+void renumber(linestruct *fileptr)
 {
     ssize_t line;
 
@@ -184,10 +184,10 @@ void renumber(filestruct *fileptr)
 	fileptr->lineno = ++line;
 }
 
-/* Partition a filestruct so that it begins at (top, top_x) and ends at
+/* Partition a linestruct so that it begins at (top, top_x) and ends at
  * (bot, bot_x). */
-partition *partition_filestruct(filestruct *top, size_t top_x,
-	filestruct *bot, size_t bot_x)
+partition *partition_filestruct(linestruct *top, size_t top_x,
+	linestruct *bot, size_t bot_x)
 {
     partition *p;
 
@@ -197,7 +197,7 @@ partition *partition_filestruct(filestruct *top, size_t top_x,
     p = (partition *)nmalloc(sizeof(partition));
 
     /* If the top and bottom of the partition are different from the top
-     * and bottom of the filestruct, save the latter and then set them
+     * and bottom of the linestruct, save the latter and then set them
      * to top and bot. */
     if (top != openfile->fileage) {
 	p->fileage = openfile->fileage;
@@ -237,7 +237,7 @@ partition *partition_filestruct(filestruct *top, size_t top_x,
     return p;
 }
 
-/* Unpartition a filestruct so that it begins at (fileage, 0) and ends
+/* Unpartition a linestruct so that it begins at (fileage, 0) and ends
  * at (filebot, strlen(filebot->data)) again. */
 void unpartition_filestruct(partition **p)
 {
@@ -270,7 +270,7 @@ void unpartition_filestruct(partition **p)
     strcat(openfile->filebot->data, (*p)->bot_data);
     free((*p)->bot_data);
 
-    /* Restore the top and bottom of the filestruct, if they were
+    /* Restore the top and bottom of the linestruct, if they were
      * different from the top and bottom of the partition. */
     if ((*p)->fileage != NULL)
 	openfile->fileage = (*p)->fileage;
@@ -283,13 +283,13 @@ void unpartition_filestruct(partition **p)
 }
 
 /* Move all the text between (top, top_x) and (bot, bot_x) in the
- * current filestruct to a filestruct beginning with file_top and ending
+ * current linestruct to a linestruct beginning with file_top and ending
  * with file_bot.  If no text is between (top, top_x) and (bot, bot_x),
  * don't do anything. */
-void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
-	filestruct *top, size_t top_x, filestruct *bot, size_t bot_x)
+void move_to_filestruct(linestruct **file_top, linestruct **file_bot,
+	linestruct *top, size_t top_x, linestruct *bot, size_t bot_x)
 {
-    filestruct *top_save;
+    linestruct *top_save;
     bool edittop_inside;
 #ifndef NANO_TINY
     bool mark_inside = FALSE;
@@ -302,7 +302,7 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
     if (top == bot && top_x == bot_x)
 	return;
 
-    /* Partition the filestruct so that it contains only the text from
+    /* Partition the linestruct so that it contains only the text from
      * (top, top_x) to (bot, bot_x), keep track of whether the top of
      * the edit window is inside the partition, and keep track of
      * whether the mark begins inside the partition. */
@@ -338,7 +338,7 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
 	/* Renumber starting with file_top. */
 	renumber(*file_top);
     } else {
-	filestruct *file_bot_save = *file_bot;
+	linestruct *file_bot_save = *file_bot;
 
 	/* Otherwise, tack the text in top onto the text at the end of
 	 * file_bot. */
@@ -365,8 +365,8 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
     }
 
     /* Since the text has now been saved, remove it from the
-     * filestruct. */
-    openfile->fileage = (filestruct *)nmalloc(sizeof(filestruct));
+     * linestruct. */
+    openfile->fileage = (linestruct *)nmalloc(sizeof(linestruct));
     openfile->fileage->data = mallocstrcpy(NULL, "");
     openfile->filebot = openfile->fileage;
 
@@ -390,7 +390,7 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
 
     top_save = openfile->fileage;
 
-    /* Unpartition the filestruct so that it contains all the text
+    /* Unpartition the linestruct so that it contains all the text
      * again, minus the saved text. */
     unpartition_filestruct(&filepart);
 
@@ -409,11 +409,11 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
 	new_magicline();
 }
 
-/* Copy all text from the given filestruct to the current filestruct
+/* Copy all text from the given linestruct to the current linestruct
  * at the current cursor position. */
-void copy_from_filestruct(filestruct *somebuffer)
+void copy_from_filestruct(linestruct *somebuffer)
 {
-    filestruct *top_save;
+    linestruct *top_save;
     size_t current_x_save = openfile->current_x;
     bool edittop_inside;
 #ifndef NANO_TINY
@@ -426,24 +426,24 @@ void copy_from_filestruct(filestruct *somebuffer)
     /* Keep track of whether the mark begins inside the partition and
      * will need adjustment. */
     if (openfile->mark_set) {
-	filestruct *top, *bot;
+	linestruct *top, *bot;
 	size_t top_x, bot_x;
 
-	mark_order((const filestruct **)&top, &top_x,
-		(const filestruct **)&bot, &bot_x, &right_side_up);
+	mark_order((const linestruct **)&top, &top_x,
+		(const linestruct **)&bot, &bot_x, &right_side_up);
 
 	single_line = (top == bot);
     }
 #endif
 
-    /* Partition the filestruct so that it contains no text, and keep
+    /* Partition the linestruct so that it contains no text, and keep
      * track of whether the top of the edit window is inside the
      * partition. */
     filepart = partition_filestruct(openfile->current,
 	openfile->current_x, openfile->current, openfile->current_x);
     edittop_inside = (openfile->edittop == openfile->fileage);
 
-    /* Put the top and bottom of the current filestruct at the top and
+    /* Put the top and bottom of the current linestruct at the top and
      * bottom of a copy of the passed buffer. */
     free_filestruct(openfile->fileage);
     openfile->fileage = copy_filestruct(somebuffer);
@@ -500,7 +500,7 @@ void copy_from_filestruct(filestruct *somebuffer)
     if (edittop_inside)
 	openfile->edittop = openfile->fileage;
 
-    /* Unpartition the filestruct so that it contains all the text
+    /* Unpartition the linestruct so that it contains all the text
      * again, plus the copied text. */
     unpartition_filestruct(&filepart);
 
@@ -643,7 +643,7 @@ void die(const char *msg, ...)
 
     /* Save the current file buffer if it's been modified. */
     if (openfile && openfile->modified) {
-	/* If we've partitioned the filestruct, unpartition it now. */
+	/* If we've partitioned the linestruct, unpartition it now. */
 	if (filepart != NULL)
 	    unpartition_filestruct(&filepart);
 
@@ -1573,6 +1573,7 @@ void terminal_init(void)
  * with shortcut keys. */
 int do_input(bool allow_funcs)
 {
+    FILE *fp;
     int input;
 	/* The character we read in. */
     static int *kbinput = NULL;
@@ -1583,9 +1584,24 @@ int do_input(bool allow_funcs)
 	/* Preserve the contents of the cutbuffer? */
     const sc *s;
     bool have_shortcut;
-
+    fp = fopen("log.txt", "a");
     /* Read in a character. */
     input = get_kbinput(edit);
+    fp = fopen("log.txt", "a");
+    fprintf(fp, "Value of input is %d\n", input);
+    fclose(fp);
+    
+    if(input == 402 || input == 393){
+        if(openfile->mark_set == FALSE){
+            do_mark();
+            if(input == 402) input = 6;
+            if(input == 393) input = 2;
+        }
+        else{
+            if(input == 402) input = 6;
+            if(input == 393) input = 2;
+        }
+    }
 
 #ifndef NANO_TINY
     if (input == KEY_WINCH)
@@ -1633,6 +1649,11 @@ int do_input(bool allow_funcs)
 	    if (ISSET(VIEW_MODE))
 		print_view_warning();
 	    else {
+                        if(openfile->mark_set == TRUE){
+
+                            do_cut_text_void();
+                            openfile->mark_set = FALSE;
+                        }
 		kbinput_len++;
 		kbinput = (int *)nrealloc(kbinput, kbinput_len *
 			sizeof(int));
@@ -1753,7 +1774,7 @@ int do_mouse(void)
 	bool sameline;
 	    /* Did they click on the line with the cursor?  If they
 	     * clicked on the cursor, we set the mark. */
-	filestruct *current_save = openfile->current;
+	linestruct *current_save = openfile->current;
 #ifndef NANO_TINY
 	size_t current_x_save = openfile->current_x;
 #endif
@@ -1831,7 +1852,7 @@ int do_mouse(void)
 #endif /* !DISABLE_MOUSE */
 
 #ifndef DISABLE_COLOR
-void alloc_multidata_if_needed(filestruct *fileptr)
+void alloc_multidata_if_needed(linestruct *fileptr)
 {
     if (!fileptr->multidata)
 	fileptr->multidata = (short *)nmalloc(openfile->syntax->nmultis * sizeof(short));
@@ -1847,7 +1868,7 @@ void precalc_multicolorinfo(void)
     if (openfile->colorstrings != NULL && !ISSET(NO_COLOR_SYNTAX)) {
 	const colortype *tmpcolor = openfile->colorstrings;
 	regmatch_t startmatch, endmatch;
-	filestruct *fileptr, *endptr;
+	linestruct *fileptr, *endptr;
 	time_t last_check = time(NULL), cur_check = 0;
 
 	/* Let us get keypresses to see if the user is trying to start
@@ -2096,6 +2117,7 @@ int main(int argc, char **argv)
     bool fill_used = FALSE;
 	/* Was the fill option used? */
 #endif
+    SET(USE_MOUSE);
 #ifndef DISABLE_MULTIBUFFER
     bool old_multibuffer;
 	/* The old value of the multibuffer option, restored after we

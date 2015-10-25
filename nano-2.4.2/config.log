@@ -722,8 +722,8 @@ configure:8428: $? = 0
 configure:8428: result: yes
 configure:8434: checking for _doprnt
 configure:8434: gcc -o conftest -g -O2 -Wall   conftest.c  >&5
-/tmp/ccwwEq9e.o: In function `main':
-/home/paragverma/Downloads/original nano/nano-2.4.2/conftest.c:94: undefined reference to `_doprnt'
+/tmp/cc9yXymW.o: In function `main':
+/home/paragverma/Downloads/nano-2.4.2/conftest.c:94: undefined reference to `_doprnt'
 collect2: error: ld returned 1 exit status
 configure:8434: $? = 1
 configure: failed program was:
@@ -1107,6 +1107,7 @@ config.status:1073: WARNING:  'po/Makefile.in.in' seems to ignore the --dataroot
 config.status:965: creating src/Makefile
 config.status:965: creating nano.spec
 config.status:965: creating config.h
+config.status:1146: config.h is unchanged
 config.status:1194: executing depfiles commands
 config.status:1194: executing default-1 commands
 
@@ -1241,7 +1242,7 @@ pkg_cv_NCURSESW_LIBS='-lncursesw '
 ## Output variables. ##
 ## ----------------- ##
 
-ACLOCAL='${SHELL} "/home/paragverma/Downloads/original nano/nano-2.4.2/missing" aclocal-1.14'
+ACLOCAL='${SHELL} /home/paragverma/Downloads/nano-2.4.2/missing aclocal-1.14'
 AMDEPBACKSLASH='\'
 AMDEP_FALSE='#'
 AMDEP_TRUE=''
@@ -1250,9 +1251,9 @@ AM_BACKSLASH='\'
 AM_DEFAULT_V='$(AM_DEFAULT_VERBOSITY)'
 AM_DEFAULT_VERBOSITY='1'
 AM_V='$(V)'
-AUTOCONF='${SHELL} "/home/paragverma/Downloads/original nano/nano-2.4.2/missing" autoconf'
-AUTOHEADER='${SHELL} "/home/paragverma/Downloads/original nano/nano-2.4.2/missing" autoheader'
-AUTOMAKE='${SHELL} "/home/paragverma/Downloads/original nano/nano-2.4.2/missing" automake-1.14'
+AUTOCONF='${SHELL} /home/paragverma/Downloads/nano-2.4.2/missing autoconf'
+AUTOHEADER='${SHELL} /home/paragverma/Downloads/nano-2.4.2/missing autoheader'
+AUTOMAKE='${SHELL} /home/paragverma/Downloads/nano-2.4.2/missing automake-1.14'
 AWK='gawk'
 CC='gcc'
 CCDEPMODE='depmode=gcc3'
@@ -1293,7 +1294,7 @@ LN_S='ln -s'
 LTLIBICONV='-liconv'
 LTLIBINTL=''
 LTLIBOBJS=''
-MAKEINFO='${SHELL} "/home/paragverma/Downloads/original nano/nano-2.4.2/missing" makeinfo'
+MAKEINFO='${SHELL} /home/paragverma/Downloads/nano-2.4.2/missing makeinfo'
 MKDIR_P='/bin/mkdir -p'
 MKINSTALLDIRS='./mkinstalldirs'
 MSGFMT='/usr/bin/msgfmt'
@@ -1361,7 +1362,7 @@ host_vendor='unknown'
 htmldir='${docdir}'
 includedir='${prefix}/include'
 infodir='${datarootdir}/info'
-install_sh='${SHELL} '\''/home/paragverma/Downloads/original nano/nano-2.4.2/install-sh'\'''
+install_sh='${SHELL} /home/paragverma/Downloads/nano-2.4.2/install-sh'
 libdir='${exec_prefix}/lib'
 libexecdir='${exec_prefix}/libexec'
 localedir='${datarootdir}/locale'

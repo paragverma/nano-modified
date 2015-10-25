@@ -1,0 +1,78 @@
+/usr/bin/make  all-recursive
+make[1]: Entering directory '/home/paragverma/Downloads/nano-2.4.2'
+Making all in doc
+make[2]: Entering directory '/home/paragverma/Downloads/nano-2.4.2/doc'
+Making all in man
+make[3]: Entering directory '/home/paragverma/Downloads/nano-2.4.2/doc/man'
+/usr/bin/make  all-recursive
+make[4]: Entering directory '/home/paragverma/Downloads/nano-2.4.2/doc/man'
+Making all in fr
+make[5]: Entering directory '/home/paragverma/Downloads/nano-2.4.2/doc/man/fr'
+/usr/bin/make  all-am
+make[6]: Entering directory '/home/paragverma/Downloads/nano-2.4.2/doc/man/fr'
+make[6]: Nothing to be done for 'all-am'.
+make[6]: Leaving directory '/home/paragverma/Downloads/nano-2.4.2/doc/man/fr'
+make[5]: Leaving directory '/home/paragverma/Downloads/nano-2.4.2/doc/man/fr'
+make[5]: Entering directory '/home/paragverma/Downloads/nano-2.4.2/doc/man'
+make[5]: Nothing to be done for 'all-am'.
+make[5]: Leaving directory '/home/paragverma/Downloads/nano-2.4.2/doc/man'
+make[4]: Leaving directory '/home/paragverma/Downloads/nano-2.4.2/doc/man'
+make[3]: Leaving directory '/home/paragverma/Downloads/nano-2.4.2/doc/man'
+Making all in syntax
+make[3]: Entering directory '/home/paragverma/Downloads/nano-2.4.2/doc/syntax'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/home/paragverma/Downloads/nano-2.4.2/doc/syntax'
+make[3]: Entering directory '/home/paragverma/Downloads/nano-2.4.2/doc'
+make[3]: Nothing to be done for 'all-am'.
+make[3]: Leaving directory '/home/paragverma/Downloads/nano-2.4.2/doc'
+make[2]: Leaving directory '/home/paragverma/Downloads/nano-2.4.2/doc'
+Making all in m4
+make[2]: Entering directory '/home/paragverma/Downloads/nano-2.4.2/m4'
+make[2]: Nothing to be done for 'all'.
+make[2]: Leaving directory '/home/paragverma/Downloads/nano-2.4.2/m4'
+Making all in po
+make[2]: Entering directory '/home/paragverma/Downloads/nano-2.4.2/po'
+make[2]: Nothing to be done for 'all'.
+make[2]: Leaving directory '/home/paragverma/Downloads/nano-2.4.2/po'
+Making all in src
+make[2]: Entering directory '/home/paragverma/Downloads/nano-2.4.2/src'
+/usr/bin/gcc -DHAVE_CONFIG_H -I. -I..  -DLOCALEDIR=\"/usr/local/share/locale\" -DSYSCONFDIR=\"/usr/local/etc\" -I/usr/include/ncursesw    -g3 -gdwarf-2 -Wall -MT browser.o -MD -MP -MF .deps/browser.Tpo -c -o browser.o browser.c
+browser.c: In function ‘browser_refresh’:
+browser.c:660:6: warning: left shift count >= width of type
+      if (st.st_size < (1 << 40) || (1 << 40) == 0)
+      ^
+browser.c:660:6: warning: left shift count >= width of type
+mv -f .deps/browser.Tpo .deps/browser.Po
+/usr/bin/gcc -DHAVE_CONFIG_H -I. -I..  -DLOCALEDIR=\"/usr/local/share/locale\" -DSYSCONFDIR=\"/usr/local/etc\" -I/usr/include/ncursesw    -g3 -gdwarf-2 -Wall -MT chars.o -MD -MP -MF .deps/chars.Tpo -c -o chars.o chars.c
+mv -f .deps/chars.Tpo .deps/chars.Po
+/usr/bin/gcc -DHAVE_CONFIG_H -I. -I..  -DLOCALEDIR=\"/usr/local/share/locale\" -DSYSCONFDIR=\"/usr/local/etc\" -I/usr/include/ncursesw    -g3 -gdwarf-2 -Wall -MT color.o -MD -MP -MF .deps/color.Tpo -c -o color.o color.c
+mv -f .deps/color.Tpo .deps/color.Po
+/usr/bin/gcc -DHAVE_CONFIG_H -I. -I..  -DLOCALEDIR=\"/usr/local/share/locale\" -DSYSCONFDIR=\"/usr/local/etc\" -I/usr/include/ncursesw    -g3 -gdwarf-2 -Wall -MT cut.o -MD -MP -MF .deps/cut.Tpo -c -o cut.o cut.c
+mv -f .deps/cut.Tpo .deps/cut.Po
+/usr/bin/gcc -DHAVE_CONFIG_H -I. -I..  -DLOCALEDIR=\"/usr/local/share/locale\" -DSYSCONFDIR=\"/usr/local/etc\" -I/usr/include/ncursesw    -g3 -gdwarf-2 -Wall -MT files.o -MD -MP -MF .deps/files.Tpo -c -o files.o files.c
+mv -f .deps/files.Tpo .deps/files.Po
+/usr/bin/gcc -DHAVE_CONFIG_H -I. -I..  -DLOCALEDIR=\"/usr/local/share/locale\" -DSYSCONFDIR=\"/usr/local/etc\" -I/usr/include/ncursesw    -g3 -gdwarf-2 -Wall -MT global.o -MD -MP -MF .deps/global.Tpo -c -o global.o global.c
+mv -f .deps/global.Tpo .deps/global.Po
+/usr/bin/gcc -DHAVE_CONFIG_H -I. -I..  -DLOCALEDIR=\"/usr/local/share/locale\" -DSYSCONFDIR=\"/usr/local/etc\" -I/usr/include/ncursesw    -g3 -gdwarf-2 -Wall -MT help.o -MD -MP -MF .deps/help.Tpo -c -o help.o help.c
+mv -f .deps/help.Tpo .deps/help.Po
+/usr/bin/gcc -DHAVE_CONFIG_H -I. -I..  -DLOCALEDIR=\"/usr/local/share/locale\" -DSYSCONFDIR=\"/usr/local/etc\" -I/usr/include/ncursesw    -g3 -gdwarf-2 -Wall -MT move.o -MD -MP -MF .deps/move.Tpo -c -o move.o move.c
+mv -f .deps/move.Tpo .deps/move.Po
+/usr/bin/gcc -DHAVE_CONFIG_H -I. -I..  -DLOCALEDIR=\"/usr/local/share/locale\" -DSYSCONFDIR=\"/usr/local/etc\" -I/usr/include/ncursesw    -g3 -gdwarf-2 -Wall -MT nano.o -MD -MP -MF .deps/nano.Tpo -c -o nano.o nano.c
+mv -f .deps/nano.Tpo .deps/nano.Po
+/usr/bin/gcc -DHAVE_CONFIG_H -I. -I..  -DLOCALEDIR=\"/usr/local/share/locale\" -DSYSCONFDIR=\"/usr/local/etc\" -I/usr/include/ncursesw    -g3 -gdwarf-2 -Wall -MT prompt.o -MD -MP -MF .deps/prompt.Tpo -c -o prompt.o prompt.c
+mv -f .deps/prompt.Tpo .deps/prompt.Po
+/usr/bin/gcc -DHAVE_CONFIG_H -I. -I..  -DLOCALEDIR=\"/usr/local/share/locale\" -DSYSCONFDIR=\"/usr/local/etc\" -I/usr/include/ncursesw    -g3 -gdwarf-2 -Wall -MT rcfile.o -MD -MP -MF .deps/rcfile.Tpo -c -o rcfile.o rcfile.c
+mv -f .deps/rcfile.Tpo .deps/rcfile.Po
+/usr/bin/gcc -DHAVE_CONFIG_H -I. -I..  -DLOCALEDIR=\"/usr/local/share/locale\" -DSYSCONFDIR=\"/usr/local/etc\" -I/usr/include/ncursesw    -g3 -gdwarf-2 -Wall -MT search.o -MD -MP -MF .deps/search.Tpo -c -o search.o search.c
+mv -f .deps/search.Tpo .deps/search.Po
+/usr/bin/gcc -DHAVE_CONFIG_H -I. -I..  -DLOCALEDIR=\"/usr/local/share/locale\" -DSYSCONFDIR=\"/usr/local/etc\" -I/usr/include/ncursesw    -g3 -gdwarf-2 -Wall -MT text.o -MD -MP -MF .deps/text.Tpo -c -o text.o text.c
+mv -f .deps/text.Tpo .deps/text.Po
+/usr/bin/gcc -DHAVE_CONFIG_H -I. -I..  -DLOCALEDIR=\"/usr/local/share/locale\" -DSYSCONFDIR=\"/usr/local/etc\" -I/usr/include/ncursesw    -g3 -gdwarf-2 -Wall -MT utils.o -MD -MP -MF .deps/utils.Tpo -c -o utils.o utils.c
+mv -f .deps/utils.Tpo .deps/utils.Po
+/usr/bin/gcc -DHAVE_CONFIG_H -I. -I..  -DLOCALEDIR=\"/usr/local/share/locale\" -DSYSCONFDIR=\"/usr/local/etc\" -I/usr/include/ncursesw    -g3 -gdwarf-2 -Wall -MT winio.o -MD -MP -MF .deps/winio.Tpo -c -o winio.o winio.c
+mv -f .deps/winio.Tpo .deps/winio.Po
+/usr/bin/gcc  -g3 -gdwarf-2 -Wall   -o nano browser.o chars.o color.o cut.o files.o global.o help.o move.o nano.o prompt.o rcfile.o search.o text.o utils.o winio.o  -lz  -lncursesw 
+make[2]: Leaving directory '/home/paragverma/Downloads/nano-2.4.2/src'
+make[2]: Entering directory '/home/paragverma/Downloads/nano-2.4.2'
+make[2]: Leaving directory '/home/paragverma/Downloads/nano-2.4.2'
+make[1]: Leaving directory '/home/paragverma/Downloads/nano-2.4.2'

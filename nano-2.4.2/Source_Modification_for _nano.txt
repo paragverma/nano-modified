@@ -1,0 +1,5 @@
+The aim of modification is to allow users to develop C programs faster...
+
+1: Mouse support has been enabled by default on start.
+
+

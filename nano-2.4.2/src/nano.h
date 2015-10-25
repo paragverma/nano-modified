@@ -287,32 +287,32 @@ typedef struct lintstruct {
 #endif /* !DISABLE_COLOR */
 
 /* More structure types. */
-typedef struct filestruct {
+typedef struct linestruct {
     char *data;
 	/* The text of this line. */
     ssize_t lineno;
 	/* The number of this line. */
-    struct filestruct *next;
+    struct linestruct *next;
 	/* Next node. */
-    struct filestruct *prev;
+    struct linestruct *prev;
 	/* Previous node. */
 #ifndef DISABLE_COLOR
     short *multidata;
 	/* Array of which multi-line regexes apply to this line. */
 #endif
-} filestruct;
+} linestruct;
 
 typedef struct partition {
-    filestruct *fileage;
+    linestruct *fileage;
 	/* The top line of this portion of the file. */
-    filestruct *top_prev;
+    linestruct *top_prev;
 	/* The line before the top line of this portion of the file. */
     char *top_data;
 	/* The text before the beginning of the top line of this portion
 	 * of the file. */
-    filestruct *filebot;
+    linestruct *filebot;
 	/* The bottom line of this portion of the file. */
-    filestruct *bot_next;
+    linestruct *bot_next;
 	/* The line after the bottom line of this portion of the
 	 * file. */
     char *bot_data;
@@ -333,9 +333,9 @@ typedef struct undo {
 	/* Some flag data we need. */
 
     /* Cut-specific stuff we need. */
-    filestruct *cutbuffer;
+    linestruct *cutbuffer;
 	/* Copy of the cutbuffer. */
-    filestruct *cutbottom;
+    linestruct *cutbottom;
 	/* Copy of cutbottom. */
     bool mark_set;
 	/* Was the marker set when we cut? */
@@ -362,13 +362,13 @@ typedef struct poshiststruct {
 typedef struct openfilestruct {
     char *filename;
 	/* The current file's name. */
-    filestruct *fileage;
+    linestruct *fileage;
 	/* The current file's first line. */
-    filestruct *filebot;
+    linestruct *filebot;
 	/* The current file's last line. */
-    filestruct *edittop;
+    linestruct *edittop;
 	/* The current top of the edit window. */
-    filestruct *current;
+    linestruct *current;
 	/* The current file's current line. */
     size_t totsize;
 	/* The current file's total number of characters. */
@@ -383,7 +383,7 @@ typedef struct openfilestruct {
 #ifndef NANO_TINY
     bool mark_set;
 	/* Whether the mark is on in the current file. */
-    filestruct *mark_begin;
+    linestruct *mark_begin;
 	/* The current file's beginning marked line, if any. */
     size_t mark_begin_x;
 	/* The current file's beginning marked line's x-coordinate

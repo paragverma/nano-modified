@@ -524,7 +524,7 @@ size_t strlenpt(const char *s)
 /* Append a new magicline to filebot. */
 void new_magicline(void)
 {
-    openfile->filebot->next = (filestruct *)nmalloc(sizeof(filestruct));
+    openfile->filebot->next = (linestruct *)nmalloc(sizeof(linestruct));
     openfile->filebot->next->data = mallocstrcpy(NULL, "");
     openfile->filebot->next->prev = openfile->filebot;
     openfile->filebot->next->next = NULL;
@@ -558,7 +558,7 @@ void remove_magicline(void)
  * right_side_up isn't NULL, set it to TRUE if the mark begins with
  * (mark_begin, mark_begin_x) and ends with (current, current_x), or
  * FALSE otherwise. */
-void mark_order(const filestruct **top, size_t *top_x, const filestruct
+void mark_order(const linestruct **top, size_t *top_x, const linestruct
 	**bot, size_t *bot_x, bool *right_side_up)
 {
     assert(top != NULL && top_x != NULL && bot != NULL && bot_x != NULL);
@@ -585,10 +585,10 @@ void mark_order(const filestruct **top, size_t *top_x, const filestruct
 
 /* Calculate the number of characters between begin and end, and return
  * it. */
-size_t get_totsize(const filestruct *begin, const filestruct *end)
+size_t get_totsize(const linestruct *begin, const linestruct *end)
 {
     size_t totsize = 0;
-    const filestruct *f;
+    const linestruct *f;
 
     /* Go through the lines from begin to end->prev, if we can. */
     for (f = begin; f != end && f != NULL; f = f->next) {
@@ -614,9 +614,9 @@ size_t get_totsize(const filestruct *begin, const filestruct *end)
 }
 
 /* Get back a pointer given a line number in the current openfilestruct. */
-filestruct *fsfromline(ssize_t lineno)
+linestruct *fsfromline(ssize_t lineno)
 {
-    filestruct *f = openfile->current;
+    linestruct *f = openfile->current;
 
     if (lineno <= openfile->current->lineno)
 	for (; f->lineno != lineno && f != openfile->fileage; f = f->prev)
@@ -631,8 +631,8 @@ filestruct *fsfromline(ssize_t lineno)
 }
 
 #ifdef DEBUG
-/* Dump the filestruct inptr to stderr. */
-void dump_filestruct(const filestruct *inptr)
+/* Dump the linestruct inptr to stderr. */
+void dump_filestruct(const linestruct *inptr)
 {
     if (inptr == openfile->fileage)
 	fprintf(stderr, "Dumping file buffer to stderr...\n");
@@ -647,10 +647,10 @@ void dump_filestruct(const filestruct *inptr)
     }
 }
 
-/* Dump the current buffer's filestruct to stderr in reverse. */
+/* Dump the current buffer's linestruct to stderr in reverse. */
 void dump_filestruct_reverse(void)
 {
-    const filestruct *fileptr = openfile->filebot;
+    const linestruct *fileptr = openfile->filebot;
 
     while (fileptr != NULL) {
 	fprintf(stderr, "(%ld) %s\n", (long)fileptr->lineno,

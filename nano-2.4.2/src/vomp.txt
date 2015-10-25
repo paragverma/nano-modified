@@ -1,0 +1,24 @@
+
+variables declared
+
+Mark is set
+
+Oopar lesser than 0
+
+variables declared
+
+Mark is set
+
+Oopar lesser than 0
+
+variables declared
+
+Mark is set
+
+Oopar lesser than 0
+
+variables declared
+
+Mark is set
+
+Oopar lesser than 0

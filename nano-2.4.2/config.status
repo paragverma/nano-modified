@@ -439,7 +439,7 @@ Copyright (C) 2012 Free Software Foundation, Inc.
 This config.status script is free software; the Free Software Foundation
 gives unlimited permission to copy, distribute and modify it."
 
-ac_pwd='/home/paragverma/Downloads/original nano/nano-2.4.2'
+ac_pwd='/home/paragverma/Downloads/nano-2.4.2'
 srcdir='.'
 INSTALL='/usr/bin/install -c'
 MKDIR_P='/bin/mkdir -p'
@@ -711,12 +711,12 @@ S["mkdir_p"]="$(MKDIR_P)"
 S["MKDIR_P"]="/bin/mkdir -p"
 S["INSTALL_STRIP_PROGRAM"]="$(install_sh) -c -s"
 S["STRIP"]=""
-S["install_sh"]="${SHELL} '/home/paragverma/Downloads/original nano/nano-2.4.2/install-sh'"
-S["MAKEINFO"]="${SHELL} \"/home/paragverma/Downloads/original nano/nano-2.4.2/missing\" makeinfo"
-S["AUTOHEADER"]="${SHELL} \"/home/paragverma/Downloads/original nano/nano-2.4.2/missing\" autoheader"
-S["AUTOMAKE"]="${SHELL} \"/home/paragverma/Downloads/original nano/nano-2.4.2/missing\" automake-1.14"
-S["AUTOCONF"]="${SHELL} \"/home/paragverma/Downloads/original nano/nano-2.4.2/missing\" autoconf"
-S["ACLOCAL"]="${SHELL} \"/home/paragverma/Downloads/original nano/nano-2.4.2/missing\" aclocal-1.14"
+S["install_sh"]="${SHELL} /home/paragverma/Downloads/nano-2.4.2/install-sh"
+S["MAKEINFO"]="${SHELL} /home/paragverma/Downloads/nano-2.4.2/missing makeinfo"
+S["AUTOHEADER"]="${SHELL} /home/paragverma/Downloads/nano-2.4.2/missing autoheader"
+S["AUTOMAKE"]="${SHELL} /home/paragverma/Downloads/nano-2.4.2/missing automake-1.14"
+S["AUTOCONF"]="${SHELL} /home/paragverma/Downloads/nano-2.4.2/missing autoconf"
+S["ACLOCAL"]="${SHELL} /home/paragverma/Downloads/nano-2.4.2/missing aclocal-1.14"
 S["VERSION"]="2.4.2"
 S["PACKAGE"]="nano"
 S["CYGPATH_W"]="echo"

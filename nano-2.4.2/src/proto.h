@@ -50,10 +50,10 @@ extern WINDOW *bottomwin;
 extern int editwinrows;
 extern int maxrows;
 
-extern filestruct *cutbuffer;
-extern filestruct *cutbottom;
+extern linestruct *cutbuffer;
+extern linestruct *cutbottom;
 #ifndef DISABLE_JUSTIFY
-extern filestruct *jusbuffer;
+extern linestruct *jusbuffer;
 #endif
 extern partition *filepart;
 extern openfilestruct *openfile;
@@ -117,12 +117,12 @@ extern subnfunc *exitfunc;
 extern subnfunc *uncutfunc;
 
 #ifndef DISABLE_HISTORIES
-extern filestruct *search_history;
-extern filestruct *searchage;
-extern filestruct *searchbot;
-extern filestruct *replace_history;
-extern filestruct *replaceage;
-extern filestruct *replacebot;
+extern linestruct *search_history;
+extern linestruct *searchage;
+extern linestruct *searchbot;
+extern linestruct *replace_history;
+extern linestruct *replaceage;
+extern linestruct *replacebot;
 extern poshiststruct *poshistory;
 #endif
 
@@ -287,7 +287,7 @@ void switch_to_prev_buffer_void(void);
 void switch_to_next_buffer_void(void);
 bool close_buffer(bool quiet);
 #endif
-filestruct *read_line(char *buf, filestruct *prevnode, bool
+linestruct *read_line(char *buf, linestruct *prevnode, bool
 	*first_line_ins, size_t buf_len);
 void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkwritable);
 int open_file(const char *filename, bool newfie, bool quiet, FILE **f);
@@ -339,7 +339,7 @@ const char *tail(const char *foo);
 #ifndef DISABLE_HISTORIES
 char *histfilename(void);
 void load_history(void);
-bool writehist(FILE *hist, filestruct *histhead);
+bool writehist(FILE *hist, linestruct *histhead);
 void save_history(void);
 int check_dotnano(void);
 void load_poshistory(void);
@@ -423,21 +423,21 @@ void do_left(void);
 void do_right(void);
 
 /* All functions in nano.c. */
-filestruct *make_new_node(filestruct *prevnode);
-filestruct *copy_node(const filestruct *src);
-void splice_node(filestruct *begin, filestruct *newnode, filestruct
+linestruct *make_new_node(linestruct *prevnode);
+linestruct *copy_node(const linestruct *src);
+void splice_node(linestruct *begin, linestruct *newnode, linestruct
 	*end);
-void unlink_node(const filestruct *fileptr);
-void delete_node(filestruct *fileptr);
-filestruct *copy_filestruct(const filestruct *src);
-void free_filestruct(filestruct *src);
-void renumber(filestruct *fileptr);
-partition *partition_filestruct(filestruct *top, size_t top_x,
-	filestruct *bot, size_t bot_x);
+void unlink_node(const linestruct *fileptr);
+void delete_node(linestruct *fileptr);
+linestruct *copy_filestruct(const linestruct *src);
+void free_filestruct(linestruct *src);
+void renumber(linestruct *fileptr);
+partition *partition_filestruct(linestruct *top, size_t top_x,
+	linestruct *bot, size_t bot_x);
 void unpartition_filestruct(partition **p);
-void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
-	filestruct *top, size_t top_x, filestruct *bot, size_t bot_x);
-void copy_from_filestruct(filestruct *somebuffer);
+void move_to_filestruct(linestruct **file_top, linestruct **file_bot,
+	linestruct *top, size_t top_x, linestruct *bot, size_t bot_x);
+void copy_from_filestruct(linestruct *somebuffer);
 openfilestruct *make_new_opennode(void);
 void splice_opennode(openfilestruct *begin, openfilestruct *newnode,
 	openfilestruct *end);
@@ -531,7 +531,7 @@ functionptrtype get_prompt_string(int *value, bool allow_tabs,
 #endif
 	const char *curranswer,
 #ifndef DISABLE_HISTORIES
-	filestruct **history_list,
+	linestruct **history_list,
 #endif
 	void (*refresh_func)(void));
 int do_prompt(bool allow_tabs,
@@ -540,7 +540,7 @@ int do_prompt(bool allow_tabs,
 #endif
 	int menu, const char *curranswer,
 #ifndef DISABLE_HISTORIES
-	filestruct **history_list,
+	linestruct **history_list,
 #endif
 	void (*refresh_func)(void), const char *msg, ...);
 void do_prompt_abort(void);
@@ -561,8 +561,8 @@ void parse_include(char *ptr);
 short color_to_short(const char *colorname, bool *bright);
 void parse_colors(char *ptr, bool icase);
 bool parse_color_names(char *combostr, short *fg, short *bg, bool *bright);
-void reset_multis(filestruct *fileptr, bool force);
-void alloc_multidata_if_needed(filestruct *fileptr);
+void reset_multis(linestruct *fileptr, bool force);
+void alloc_multidata_if_needed(linestruct *fileptr);
 #endif
 void parse_rcfile(FILE *rcstream
 #ifndef DISABLE_COLOR
@@ -584,7 +584,7 @@ bool findnextstr(
 #ifndef DISABLE_SPELLER
 	bool whole_word_only,
 #endif
-	const filestruct *begin, size_t begin_x,
+	const linestruct *begin, size_t begin_x,
 	const char *needle, size_t *needle_len);
 void findnextstr_wrap_reset(void);
 void do_search(void);
@@ -599,7 +599,7 @@ ssize_t do_replace_loop(
 #ifndef DISABLE_SPELLER
 	bool whole_word_only,
 #endif
-	bool *canceled, const filestruct *real_current, size_t
+	bool *canceled, const linestruct *real_current, size_t
 	*real_current_x, const char *needle);
 void do_replace(void);
 void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
@@ -614,18 +614,18 @@ void goto_line_posx(ssize_t line, size_t pos_x);
 bool find_bracket_match(bool reverse, const char *bracket_set);
 void do_find_bracket(void);
 #ifndef DISABLE_TABCOMP
-char *get_history_completion(filestruct **h, const char *s, size_t len);
+char *get_history_completion(linestruct **h, const char *s, size_t len);
 #endif
 #endif
 #ifndef DISABLE_HISTORIES
 bool history_has_changed(void);
 void history_init(void);
-void history_reset(const filestruct *h);
-filestruct *find_history(const filestruct *h_start, const filestruct
+void history_reset(const linestruct *h);
+linestruct *find_history(const linestruct *h_start, const linestruct
 	*h_end, const char *s, size_t len);
-void update_history(filestruct **h, const char *s);
-char *get_history_older(filestruct **h);
-char *get_history_newer(filestruct **h);
+void update_history(linestruct **h, const char *s);
+char *get_history_older(linestruct **h);
+char *get_history_newer(linestruct **h);
 void get_history_older_void(void);
 void get_history_newer_void(void);
 #endif
@@ -652,7 +652,7 @@ bool execute_command(const char *command);
 #endif
 #ifndef DISABLE_WRAPPING
 void wrap_reset(void);
-bool do_wrap(filestruct *line);
+bool do_wrap(linestruct *line);
 #endif
 #if !defined(DISABLE_HELP) || !defined(DISABLE_WRAPJUSTIFY)
 ssize_t break_line(const char *line, ssize_t goal
@@ -665,15 +665,15 @@ ssize_t break_line(const char *line, ssize_t goal
 size_t indent_length(const char *line);
 #endif
 #ifndef DISABLE_JUSTIFY
-void justify_format(filestruct *paragraph, size_t skip);
+void justify_format(linestruct *paragraph, size_t skip);
 size_t quote_length(const char *line);
 bool quotes_match(const char *a_line, size_t a_quote, const char
 	*b_line);
 bool indents_match(const char *a_line, size_t a_indent, const char
 	*b_line, size_t b_indent);
-bool begpar(const filestruct *const foo);
-bool inpar(const filestruct *const foo);
-void backup_lines(filestruct *first_line, size_t par_len);
+bool begpar(const linestruct *const foo);
+bool inpar(const linestruct *const foo);
+void backup_lines(linestruct *first_line, size_t par_len);
 bool find_paragraph(size_t *const quote, size_t *const par);
 void do_justify(bool full_justify);
 void do_justify_void(void);
@@ -732,15 +732,15 @@ size_t strlenpt(const char *s);
 void new_magicline(void);
 #ifndef NANO_TINY
 void remove_magicline(void);
-void mark_order(const filestruct **top, size_t *top_x, const filestruct
+void mark_order(const linestruct **top, size_t *top_x, const linestruct
 	**bot, size_t *bot_x, bool *right_side_up);
 void add_undo(undo_type action);
 void update_undo(undo_type action);
 #endif
-size_t get_totsize(const filestruct *begin, const filestruct *end);
-filestruct *fsfromline(ssize_t lineno);
+size_t get_totsize(const linestruct *begin, const linestruct *end);
+linestruct *fsfromline(ssize_t lineno);
 #ifdef DEBUG
-void dump_filestruct(const filestruct *inptr);
+void dump_filestruct(const linestruct *inptr);
 void dump_filestruct_reverse(void);
 #endif
 
@@ -783,12 +783,12 @@ void statusbar(const char *msg, ...);
 void bottombars(int menu);
 void onekey(const char *keystroke, const char *desc, size_t len);
 void reset_cursor(void);
-void edit_draw(filestruct *fileptr, const char *converted, int
+void edit_draw(linestruct *fileptr, const char *converted, int
 	line, size_t start);
-int update_line(filestruct *fileptr, size_t index);
+int update_line(linestruct *fileptr, size_t index);
 bool need_screen_update(size_t pww_save);
 void edit_scroll(scroll_dir direction, ssize_t nlines);
-void edit_redraw(filestruct *old_current, size_t pww_save);
+void edit_redraw(linestruct *old_current, size_t pww_save);
 void edit_refresh(void);
 void edit_update(update_type location);
 void total_redraw(void);

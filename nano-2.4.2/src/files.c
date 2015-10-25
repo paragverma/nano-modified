@@ -563,10 +563,10 @@ int is_file_writable(const char *filename)
  * first_line_ins is TRUE, then we put the new line at the top of the
  * file.  Otherwise, we assume prevnode is the last line of the file,
  * and put our line after prevnode. */
-filestruct *read_line(char *buf, filestruct *prevnode, bool
+linestruct *read_line(char *buf, linestruct *prevnode, bool
 	*first_line_ins, size_t buf_len)
 {
-    filestruct *fileptr = (filestruct *)nmalloc(sizeof(filestruct));
+    linestruct *fileptr = (linestruct *)nmalloc(sizeof(linestruct));
 
     /* Convert nulls to newlines.  buf_len is the string's real
      * length. */
@@ -633,7 +633,7 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
 	/* The current input character. */
     char *buf;
 	/* The buffer where we store chunks of the file. */
-    filestruct *fileptr = openfile->current;
+    linestruct *fileptr = openfile->current;
 	/* The current line of the file. */
     bool first_line_ins = FALSE;
 	/* Whether we're inserting with the cursor on the first line. */
@@ -662,7 +662,7 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
     else
 	fileptr = openfile->current->prev;
 
-    /* Read the entire file into the filestruct. */
+    /* Read the entire file into the linestruct. */
     while ((input_int = getc(f)) != EOF) {
 	input = (char)input_int;
 
@@ -781,7 +781,7 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
     if (fileptr == NULL)
 	open_buffer("", FALSE);
 
-    /* Attach the file we got to the filestruct.  If we got a file of
+    /* Attach the file we got to the linestruct.  If we got a file of
      * zero bytes, don't do anything. */
     if (num_lines > 0) {
 	/* If the file we got doesn't end in a newline, tack its last
@@ -1023,7 +1023,7 @@ void do_insertfile(
     const char *msg;
     char *ans = mallocstrcpy(NULL, "");
 	/* The last answer the user typed at the statusbar prompt. */
-    filestruct *edittop_save = openfile->edittop;
+    linestruct *edittop_save = openfile->edittop;
     size_t current_x_save = openfile->current_x;
     ssize_t current_y_save = openfile->current_y;
     bool edittop_inside = FALSE;
@@ -1131,11 +1131,11 @@ void do_insertfile(
 	    /* Keep track of whether the mark begins inside the
 	     * partition and will need adjustment. */
 	    if (openfile->mark_set) {
-		filestruct *top, *bot;
+		linestruct *top, *bot;
 		size_t top_x, bot_x;
 
-		mark_order((const filestruct **)&top, &top_x,
-			(const filestruct **)&bot, &bot_x,
+		mark_order((const linestruct **)&top, &top_x,
+			(const linestruct **)&bot, &bot_x,
 			&right_side_up);
 
 		single_line = (top == bot);
@@ -1146,7 +1146,7 @@ void do_insertfile(
 	    if (!ISSET(MULTIBUFFER)) {
 #endif
 		/* If we're not inserting into a new buffer, partition
-		 * the filestruct so that it contains no text and hence
+		 * the linestruct so that it contains no text and hence
 		 * looks like a new buffer, and keep track of whether
 		 * the top of the edit window is inside the
 		 * partition. */
@@ -1214,7 +1214,7 @@ void do_insertfile(
 	    } else
 #endif
 	    {
-		filestruct *top_save = openfile->fileage;
+		linestruct *top_save = openfile->fileage;
 
 		/* If we were at the top of the edit window before, set
 		 * the saved value of edittop to the new top of the edit
@@ -1256,7 +1256,7 @@ void do_insertfile(
 		 * number of lines inserted. */
 		openfile->current_y += current_y_save;
 
-		/* Unpartition the filestruct so that it contains all
+		/* Unpartition the linestruct so that it contains all
 		 * the text again.  Note that we've replaced the
 		 * non-text originally in the partition with the text in
 		 * the inserted file/executed command output. */
@@ -1680,7 +1680,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	/* Instead of returning in this function, you should always
 	 * set retval and then goto cleanup_and_exit. */
     size_t lineswritten = 0;
-    const filestruct *fileptr = openfile->fileage;
+    const linestruct *fileptr = openfile->fileage;
     int fd;
 	/* The file descriptor we use. */
     mode_t original_umask = 0;
@@ -2176,15 +2176,15 @@ bool write_marked_file(const char *name, FILE *f_open, bool tmp,
 	/* write_file() unsets the modified flag. */
     bool added_magicline = FALSE;
 	/* Whether we added a magicline after filebot. */
-    filestruct *top, *bot;
+    linestruct *top, *bot;
     size_t top_x, bot_x;
 
     assert(openfile->mark_set);
 
-    /* Partition the filestruct so that it contains only the marked
+    /* Partition the linestruct so that it contains only the marked
      * text. */
-    mark_order((const filestruct **)&top, &top_x,
-	(const filestruct **)&bot, &bot_x, NULL);
+    mark_order((const linestruct **)&top, &top_x,
+	(const linestruct **)&bot, &bot_x, NULL);
     filepart = partition_filestruct(top, top_x, bot, bot_x);
 
     /* Handle the magicline if the NO_NEWLINES flag isn't set.  If the
@@ -2202,7 +2202,7 @@ bool write_marked_file(const char *name, FILE *f_open, bool tmp,
     if (!ISSET(NO_NEWLINES) && added_magicline)
 	remove_magicline();
 
-    /* Unpartition the filestruct so that it contains all the text
+    /* Unpartition the linestruct so that it contains all the text
      * again. */
     unpartition_filestruct(&filepart);
 
@@ -3007,7 +3007,7 @@ void load_history(void)
 	    /* Load a history list (first the search history, then the
 	     * replace history) from the oldest entry to the newest.
 	     * Assume the last history entry is a blank line. */
-	    filestruct **history = &search_history;
+	    linestruct **history = &search_history;
 	    char *line = NULL;
 	    size_t buf_len = 0;
 	    ssize_t read;
@@ -3037,9 +3037,9 @@ void load_history(void)
 /* Write the lines of a history list, starting with the line at h, to
  * the open file at hist.  Return TRUE if the write succeeded, and FALSE
  * otherwise. */
-bool writehist(FILE *hist, filestruct *h)
+bool writehist(FILE *hist, linestruct *h)
 {
-    filestruct *p;
+    linestruct *p;
 
     /* Write a history list from the oldest entry to the newest.  Assume
      * the last history entry is a blank line. */
