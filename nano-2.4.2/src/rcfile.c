@@ -102,10 +102,10 @@ static const rcoption rcopts[] = {
     {"wordbounds", WORD_BOUNDS},
 #endif
 #ifndef DISABLE_COLOR
-    {"titlecolor", 0},
-    {"statuscolor", 0},
-    {"keycolor", 0},
-    {"functioncolor", 0},
+    {"titlecolor", 2},
+    {"statuscolor", 2},
+    {"keycolor", 2},
+    {"functioncolor", 2},
 #endif
     {NULL, 0}
 };

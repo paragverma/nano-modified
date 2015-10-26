@@ -40,6 +40,7 @@
 #endif
 #ifndef NANO_TINY
 #include <sys/ioctl.h>
+#include <curses.h>
 #endif
 
 #ifndef DISABLE_MOUSE
@@ -60,6 +61,7 @@ int mcflag = 0;
 typedef struct mcpositions{
 	size_t xcor;
 	ssize_t ycor;
+        int x_shift;
 	struct mcpositions *next;
 } mcpositions;
 
@@ -68,16 +70,26 @@ typedef struct mcarray{
 	struct mcpositions *tail;
 } mcarray;
 
+
+
 void initmcarray(mcarray *p){
 	p->head = NULL;
 	p->tail = NULL;
 }
 
+int distance_origin(mcpositions *a){
+    return a->xcor + a->ycor;
+}
+
+/*Add cursor position in a sorted way*/
 void addposition(mcarray *p, size_t x, ssize_t y){
 	mcpositions *q;
+        mcpositions *r = p->head;
+        mcpositions *r_f;
 	q = (mcpositions*)malloc(sizeof(mcpositions));
 	q->xcor = x;
 	q->ycor = y;
+        q->x_shift = 0;
 	q->next = NULL;
 	if(p->head == NULL && p->tail == NULL){
 		p->head = q;
@@ -85,9 +97,27 @@ void addposition(mcarray *p, size_t x, ssize_t y){
 		return;
 	}
 	
-	p->tail->next = q;
-	p->tail = q;
-        return;
+        while(r && (distance_origin(q) > distance_origin(r))){
+            r_f = r;
+            r = r->next;
+        } 
+        if(!r){
+            p->tail->next = q;
+            p->tail = q;
+            return;
+        }
+        
+        else if(r == p->head){
+            q->next = p->head;
+            p->head = q;
+        }
+        
+        else {
+            r_f->next = q;
+            q->next = r;
+        }
+        
+        
 }
 
 void freemcarray(mcarray *p){
@@ -102,14 +132,14 @@ void freemcarray(mcarray *p){
 	return;
 }
 
-/*Will return number of cursors placed in that line*/
-int check_ycor_mcandcc(mcarray *p, ssize_t curry){
+/*Will return number of cursors placed in that line before the current cursor position*/
+int check_ycor_mcandcc(mcarray *p, size_t x_orig, ssize_t y_orig){
     int i, j;
     int nofc = 0;
     mcpositions *q = p->head;
     
     while(q != NULL){
-        if(q->ycor == curry) nofc++;
+        if((q->ycor == y_orig) && (q->xcor < x_orig)) nofc++;
         q = q->next;
     }
     
@@ -125,18 +155,15 @@ c
 0 1 2 3 4 5 6
 0 1 2 3 4 5 6
  */
-/*Increments xcors of all cursors in front the the current cursor int the same line by 1*/
+/*Increments xcors of all cursors in front the the current 
+    cursor in the same line by 1*/
 void increment_xcor_f_sl(mcarray *p, ssize_t yco, size_t xco){
     mcpositions *q = p->head;
-    FILE *fp;
-     fp = fopen("printxcorincre.txt", "a");
      while(q != NULL){
-        fprintf(fp, "Recieved pivots xco  %d and yco %d\nChecking q->xcor %d q->y_cor %d\n", xco, yco, q->xcor, q->ycor);
-        if(q->ycor == yco)
-            if(q->xcor > xco + 1){ fprintf(fp, "lineno %d matched the xcor to be incremented is   %d\n", q->ycor, q->xcor); q->xcor++; } 
+         if(q->ycor == yco)
+            if(q->xcor > xco + 1) q->xcor++;
         q = q->next;
     }
-     fclose(fp);
     return;
 }
 
@@ -147,48 +174,32 @@ void printoptocursors(mcarray *p, size_t kbinput_len, char* output){
         size_t x_orig = openfile->current_x;
 	ssize_t y_orig = openfile->current_y;
 	int i, j;
-	int le = 0;
+	int le;
+        void *opts = NULL;
         int c_at_lastline = 0;
 	mcpositions *q = p->head;
 	linestruct *f = openfile->fileage;
         
-        
-        fp = fopen("printoptocursors.txt", "a");
-        fprintf(fp, "the ycor of last line is  %d\n", openfile->filebot->lineno);
+        increment_xcor_f_sl(p, y_orig, x_orig);
 	while(q != NULL){
             
 		do_first_line();
-		/*if(strlen(f->data) != 0) le = 1;
-		else{
-                        if(q->next == NULL) return;
-			else q = q->next; 
-                        continue;
-                }
-                */
-                fprintf(fp, "x coordinate of first cursor is %d and y coordinate is %d\n", q->xcor, q->ycor);
+
 		x = q->xcor++;
+                q->x_shift++;
 		y = q->ycor;
 
-                
- 
-                /*if(openfile->filebot->lineno < j){
-                    q = q->next;
-                        continue;
-                }
-                else*/
+
                     for(j = 0; j < y; j++){
                         do_down_void();
                     }
-		
-                /*if(strlen(openfile->current->data) - 1 < i){
-                    q = q->next;
-                    continue;
-                }
-                else*/
+                
                     for(i = 0; i < x; i++){
                         do_right();
                     }
+                
                 increment_xcor_f_sl(p, y, x);
+
 		do_output(output, kbinput_len, FALSE);
 
                 
@@ -203,16 +214,16 @@ void printoptocursors(mcarray *p, size_t kbinput_len, char* output){
                     for(i = 0; i < x_orig; i++){
                         do_right();
                     }
-                    for(i = 0; i < check_ycor_mcandcc(p, y_orig); i++){
+                    for(i = 0; i < check_ycor_mcandcc(p, x_orig, y_orig); i++){
                         do_right();
                     }
-                    //if(check_ycor_mcandcc(p, y_orig) == 1) do_right();
-                    fprintf(fp, "checkmcandcc %d\n", check_ycor_mcandcc(p, y_orig));
-        fclose(fp);
+
         return;
 }
 
 mcarray mcarr;
+
+/*Multiple cursors till here*/
 
 
 /* Create a new linestruct node.  Note that we do not set prevnode->next
@@ -1750,7 +1761,7 @@ int do_input(bool allow_funcs)
     bool have_shortcut;
     /* Read in a character. */
     input = get_kbinput(edit);
-    
+
     if(input == 337){
 		mcflag = 1;
                 nofmc++;
