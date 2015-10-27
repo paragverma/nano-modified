@@ -81,6 +81,76 @@ int distance_origin(mcpositions *a){
     return a->xcor + a->ycor;
 }
 
+int mc_empty(mcarray *p){
+    return (p->head == NULL ) && (p->tail == NULL);
+}
+
+
+void decrement_xcor_f_sl(mcarray *p, ssize_t yco, size_t xco){
+    mcpositions *q = p->head;
+     while(q != NULL){
+         if(q->ycor == yco)
+            if(q->xcor > xco + 1) q->xcor--;
+        q = q->next;
+    }
+    return;
+}
+
+void backspace_mc(mcarray *p){
+	size_t x;
+	ssize_t y;
+        size_t x_orig = openfile->current_x;
+	ssize_t y_orig = openfile->current_y;
+	int i, j;
+	int le;
+        void *opts = NULL;
+        int c_at_lastline = 0;
+	mcpositions *q = p->head;
+	linestruct *f = openfile->fileage;
+        FILE *fp;
+        fp = fopen("log.txt", "a");
+        
+        //decrement_xcor_f_sl(p, y_orig, x_orig);
+	while(q != NULL){
+            
+		do_first_line();
+
+		x = q->xcor--;
+                q->x_shift--;
+		y = q->ycor;
+
+                fprintf(fp, "x is %d and y is %d\n", x, y);
+                    for(j = 0; j < y; j++){
+                        do_down_void();
+                    }
+                
+                    for(i = 0; i < x; i++){
+                        do_right();
+                    }
+                
+                decrement_xcor_f_sl(p, y, x);
+                do_deletion(REPLACE);
+                //do_backspace();
+                //do_deletion(INSERT);
+                //do_deletion(CUT);
+              q = q->next;
+            }
+        
+        /*Move cursor to original position*/
+        do_first_line();
+                    for(j = 0; j < y_orig; j++){
+                        do_down_void();
+                    }
+                    for(i = 0; i < x_orig; i++){
+                        do_right();
+                    }
+                    for(i = 0; i < check_ycor_mcandcc(p, x_orig, y_orig); i++){
+                        do_left();
+                    }
+        fclose(fp);
+        return;
+    
+}
 /*Add cursor position in a sorted way*/
 void addposition(mcarray *p, size_t x, ssize_t y){
 	mcpositions *q;
@@ -1741,13 +1811,13 @@ void terminal_init(void)
  * necessary, and return it.
  * If allow_funcs is FALSE, don't actually run any functions associated
  * with shortcut keys. */
+
 int do_input(bool allow_funcs)
 {
 
     static int nofmc = 0;
     char mcmsg[40];
-    int i = 0;
-    FILE *fp;
+    static int b_space = 0;
     int input;
 	/* The character we read in. */
     static int *kbinput = NULL;
@@ -1766,7 +1836,7 @@ int do_input(bool allow_funcs)
 		mcflag = 1;
                 nofmc++;
 		addposition(&mcarr, openfile->current_x, openfile->current_y);
-                sprintf(mcmsg, "Cursor no. %d recorded", nofmc);
+                sprintf(mcmsg, "Marker no. %d recorded", nofmc);
 		statusbar(_(mcmsg));
 	    	beep();
 	    	//input = get_kbinput(edit);
@@ -1778,6 +1848,7 @@ int do_input(bool allow_funcs)
                 nofmc = 0;
 		freemcarray(&mcarr);
                 initmcarray(&mcarr);
+                b_space = 0;
 		statusbar(_("Cursors freed"));
 	    	beep();
 	    	//input = get_kbinput(edit);
@@ -1793,6 +1864,17 @@ int do_input(bool allow_funcs)
         else{
             if(input == 402) input = 6;
             if(input == 393) input = 2;
+        }
+    }
+    
+    if(input == 8){
+        if(mcflag == 1){
+            
+            do_backspace();
+            backspace_mc(&mcarr);
+            if(b_space == 0) backspace_mc(&mcarr);
+            b_space++;
+            return input;
         }
     }
 
@@ -1817,9 +1899,11 @@ int do_input(bool allow_funcs)
     /* Check for a shortcut in the main list. */
     s = get_shortcut(&input);
 
+
     /* If we got a shortcut from the main list, or a "universal"
      * edit window shortcut, set have_shortcut to TRUE. */
     have_shortcut = (s != NULL);
+    
 
     /* If we got a non-high-bit control key, a meta key sequence, or a
      * function key, and it's not a shortcut or toggle, throw it out. */
@@ -1877,6 +1961,7 @@ int do_input(bool allow_funcs)
 		for (i = 0; i < kbinput_len; i++)
 		    output[i] = (char)kbinput[i];
 		output[i] = '\0';
+                
                 /*Ithar hai Multiple cursors*/
                 if(mcflag == 0) do_output(output, kbinput_len, FALSE);
                 else{
