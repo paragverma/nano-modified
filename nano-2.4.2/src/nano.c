@@ -295,6 +295,227 @@ mcarray mcarr;
 
 /*Multiple cursors till here*/
 
+/*Dictionary from here*/
+typedef struct node {
+	char *str;
+	struct node *left, *right;
+}node;
+typedef node *tree;
+
+typedef struct s_node{
+	char *word;
+	struct s_node *next;
+} s_node;
+
+typedef struct s_list{
+	struct s_node *head;
+	struct s_node *tail;
+	int length;
+} s_list;
+
+void init(tree *t) {
+	*t = NULL;
+}
+
+#define LEFT 1
+#define RIGHT 2
+void insert(tree *t, char *str) {
+	node *p, *q, *tmp;
+	int direction = LEFT;
+	p = *t;
+
+	while(p) {
+		q = p;
+		if(str[0] <= p->str[0]) {
+			p = p->left;
+			direction = LEFT;
+		}
+		else {
+			p = p->right;
+			direction = RIGHT;
+		}
+	}	
+	/* assert: p == NULL */
+	/* todo: create a new node, insert data in new node; 
+         * and link the new node to q 
+         */
+	tmp = (node *)malloc(sizeof(node));
+	if(!tmp)
+		return;
+	tmp->str = (char *)malloc(strlen(str) + 1);
+	strcpy(tmp->str, str);
+
+	tmp->left = tmp->right = NULL;
+	if(*t == NULL) {
+		*t = tmp;
+		return;
+	}
+	if(direction == LEFT)
+		q->left = tmp;
+	else
+		q->right = tmp;	
+}
+
+#define MAXH(a, b) ((a) > (b) ? (a) : (b))
+int height(tree *t) {
+	int x, y;
+	node *p = *t;
+	if(p == NULL)
+		return -1; 
+	x = height(&p->left);
+	y = height(&p->right);
+	return 1 + MAXH(x, y);
+}
+
+void s_init(s_list *l){
+	l->head = NULL;
+	l->tail = NULL;
+	l->length = 0;
+}
+
+void s_append(s_list *l, char *str){
+	s_node *temp = (s_node*)malloc(sizeof(s_node));
+	temp->word = (char*)malloc(sizeof(str) + 1);
+	strcpy(temp->word, str);
+	if(l->head == NULL && l->tail == NULL){
+		l->tail = temp;
+		l->head = temp;
+		l->head->next = NULL;
+		return;
+	}
+	else {
+		l->tail->next = temp;
+		temp->next = NULL;
+		l->tail = temp;
+	}
+	return;
+}
+
+int if_in_ml(s_list *l, char *str){
+	s_node *p = l->head;
+	while(p){
+		if(strcmp(str, p->word) == 0) return 1;
+		p = p->next;
+	}
+	return 0;
+}
+
+void free_s_list(s_list *l){
+	s_node *p = l->head;
+	s_node *q = p;
+	while(p){
+		p = p->next;
+		if(q) free(q->word);
+		q = p;
+	}
+	
+	s_init(l);
+	return;
+}
+
+// 1 abhijeet 1 kale 1 parag 1 include 1 printf   6 p 6 p 6 i 6 v 6 v 6 g
+int count(tree t) {
+	if(t == NULL)
+		return 0;
+	return 1 + count(t->left) + count(t->right);	
+}
+
+
+int partial_match(char *this, char *that){
+	int i = 0;
+
+ 	while(this[i] != '\0' && that[i] != '\0'){
+		if(this[i] != that[i]) return 0;
+		i++;
+	}
+
+	return 1;
+	
+}
+
+/*Searches in the tree*/
+/*s_list has to be initialised before*/
+tree search(tree t, char *str, s_list *l) {
+	while(t){
+		if((partial_match(str, t->str) == 1) && (if_in_ml(l, t->str) == 0)){
+			s_append(l, t->str);
+			return t;
+		}
+			
+		if(str[0] <= t->str[0]) t = t->left;
+		else t = t->right;
+
+	}
+
+	return NULL;
+}
+
+/////////////////////////////////////////////////////////////////////
+
+/*Requires initialised tree*/
+void add_from_file(tree *t, char *fname){
+	FILE *fp;
+	char buf[64];
+	fp = fopen(fname, "r");
+		if(fp == NULL) return;
+
+	while(fscanf(fp, "%s", buf) != -1) insert(t, buf);
+}
+int power(int x, int y){
+	int i, n;
+	n = x;
+	for(i = 0; i < y - 1; i++) n = n * x;
+	return n;
+}
+
+void free_tree(tree *t){
+	
+	node *traveller = *t;
+	int i, j, n, k;
+	int *a;
+	
+	for(i = 1; i <= height(t); i++){
+		a = (int*)calloc(i, sizeof(int));
+		traveller = *t;
+		for(j = 0; j < power(2, i); j++){
+			traveller = *t;
+
+			n = j;
+			k = i - 1;
+			while(n != 0){
+				if(n % 2 == 0) a[k] = 0;
+				else if(n % 2 == 1) a[k] = 1;
+				n = n / 2;
+				k--;
+			}
+						
+			for(k = 0; k < i; k++){
+				if(a[k] == 0){
+					if(traveller->left != NULL) traveller = traveller->left;
+					else{
+						traveller = NULL;
+						break;
+					}
+				}
+				if(a[k] == 1){
+					if(traveller->right != NULL) traveller = traveller->right;
+					else{
+						traveller = NULL;
+						break;
+					}
+				}
+				a[k] = 0;
+			}
+			
+			if(traveller != NULL) free(traveller);
+			
+		}
+		free(a);
+	}
+
+
+}
+/*dictionaryTill here*/
 
 /* Create a new linestruct node.  Note that we do not set prevnode->next
  * to the new line. */
