@@ -21,6 +21,25 @@
  *                                                                        *
  **************************************************************************/
 
+/*Dictionary from here*/
+typedef struct node {
+	char *str;
+	struct node *left, *right;
+}node;
+typedef node *tree;
+
+typedef struct s_node{
+	char *word;
+	struct s_node *next;
+} s_node;
+
+typedef struct s_list{
+	struct s_node *head;
+	struct s_node *tail;
+	int length;
+} s_list;
+
+/*Dictionary till here*/
 #ifndef NANO_H
 #define NANO_H 1
 

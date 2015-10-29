@@ -326,7 +326,7 @@ int get_kbinput(WINDOW *win)
  * a function key. */
 int parse_kbinput(WINDOW *win)
 {
-    FILE *fp;
+
     static int escapes = 0, byte_digits = 0;
     int *kbinput, retval = ERR;
 
@@ -340,25 +340,17 @@ int parse_kbinput(WINDOW *win)
 	    return 0;
         if(*kbinput == 402 || *kbinput == 393) return *kbinput;
         
-        fp = fopen("log_parse_kbinput.txt", "a");
-        fprintf(fp, "kbinput is now %d\n", *kbinput);
-        fclose(fp);
     } 
     else{
 	while ((kbinput = get_input(win, 1)) == NULL)
 	    ;
         if(*kbinput == 402 || *kbinput == 393) return *kbinput;
-        fp = fopen("log_parse_kbinput.txt", "a");
-        fprintf(fp, "kbinput is now %d\n", *kbinput);
-        fclose(fp);
         }
     switch (*kbinput) {
 	case ERR:
 	    break;
 	case NANO_CONTROL_3: /*NANO_CONTROL_3 is #defined as 27, the ascii for escape */
-                    fp = fopen("switch_nano_control_3.txt", "a");
-                    fprintf(fp, "switch mein NANO_CONTROL_3\n");
-                    fclose(fp);
+
 	    /* Increment the escape counter. */
 	    escapes++;
 	    switch (escapes) {

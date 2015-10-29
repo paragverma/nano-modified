@@ -296,22 +296,8 @@ mcarray mcarr;
 /*Multiple cursors till here*/
 
 /*Dictionary from here*/
-typedef struct node {
-	char *str;
-	struct node *left, *right;
-}node;
-typedef node *tree;
 
-typedef struct s_node{
-	char *word;
-	struct s_node *next;
-} s_node;
-
-typedef struct s_list{
-	struct s_node *head;
-	struct s_node *tail;
-	int length;
-} s_list;
+tree t;
 
 void init(tree *t) {
 	*t = NULL;
@@ -2035,7 +2021,7 @@ void terminal_init(void)
 
 int do_input(bool allow_funcs)
 {
-
+    FILE *fp;
     static int nofmc = 0;
     char mcmsg[40];
     static int b_space = 0;
@@ -2052,7 +2038,9 @@ int do_input(bool allow_funcs)
     bool have_shortcut;
     /* Read in a character. */
     input = get_kbinput(edit);
-
+    fp = fopen("loggerm.txt", "a");
+    fprintf(fp, "%d\n", input);
+    fclose(fp);
     if(input == 337){
 		mcflag = 1;
                 nofmc++;
@@ -2617,6 +2605,8 @@ int main(int argc, char **argv)
 {
     int optchr;
     ssize_t startline = 0, startcol = 0;
+    FILE *fp;
+
 	/* Target line and column when specified on the command line. */
 #ifndef DISABLE_WRAPJUSTIFY
     bool fill_used = FALSE;
@@ -2624,6 +2614,11 @@ int main(int argc, char **argv)
 #endif
     SET(USE_MOUSE);
     initmcarray(&mcarr);
+    init(&t);
+    fp = fopen("dictionary.txt", "r");
+    if(fp == NULL) fp = fopen("dictionary.txt", "a");
+    add_from_file(&t, "dictionary.txt");
+    
 #ifndef DISABLE_MULTIBUFFER
     bool old_multibuffer;
 	/* The old value of the multibuffer option, restored after we

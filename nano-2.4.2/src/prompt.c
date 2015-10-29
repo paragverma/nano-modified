@@ -1047,12 +1047,203 @@ void do_prompt_abort(void)
  * TRUE when passed in), and -1 for Cancel. */
 int do_yesno_prompt(bool all, const char *msg)
 {
+    s_list l;
+    s_node *p;
+    tree grab;
+    tree t;
     int ok = -2, width = 16;
     const char *yesstr;		/* String of Yes characters accepted. */
     const char *nostr;		/* Same for No. */
     const char *allstr;		/* And All, surprise! */
     int oldmenu = currmenu;
+    char but[16];
+    int i;
+    int count = 0;
+    FILE *fp;
+    fp = fopen("prompter.txt", "a");
 
+    assert(msg != NULL);
+
+        s_init(&l);
+        init(&t);
+        add_from_file(&t, "dictionary.txt");
+    while((grab = search(t, "v", &l)) != NULL){
+        s_append(&l, grab->str);
+
+        count++;
+    }
+    /*Now partial matched list is prepared*/
+
+    p = l.head;
+    
+    /* yesstr, nostr, and allstr are strings of any length.  Each string
+     * consists of all single-byte characters accepted as valid
+     * characters for that value.  The first value will be the one
+     * displayed in the shortcuts. */
+    /* TRANSLATORS: For the next three strings, if possible, specify
+     * the single-byte shortcuts for both your language and English.
+     * For example, in French: "OoYy" for "Oui". */
+    yesstr = _("Yy");
+    nostr = _("Nn");
+    allstr = _("Aa");
+
+    do {
+	int kbinput;
+	functionptrtype func;
+        i = 0;
+        p = l.head;
+#ifndef DISABLE_MOUSE
+	int mouse_x, mouse_y;
+#endif
+
+	if (!ISSET(NO_HELP)) {
+	    char shortstr[3];
+		/* Temporary string for (translated) " Y", " N" and " A". */
+
+	    if (COLS < 32)
+		width = COLS / 2;
+
+	    /* Clear the shortcut list from the bottom of the screen. */
+	    blank_bottombars();
+
+	    /* Now show the ones for "Yes", "No", "Cancel" and maybe "All". */
+
+
+	    if (all) {
+		shortstr[1] = allstr[0];
+		wmove(bottomwin, 1, width);
+		onekey(shortstr, _("All"), width);
+	    }
+
+            for(i = 0; i < count; i++){
+                sprintf(but, "%d", i + 1);
+                if(i == 0) wmove(bottomwin, 1, 0);
+                else wmove(bottomwin, 1, i * width);
+                if(p){
+                    onekey(but, p->word, width);
+                    p = p->next;
+                }
+            }
+
+	    wmove(bottomwin, 1, i * width);
+	    onekey("^C", _("Cancel"), width);
+	}
+
+	if (interface_color_pair[TITLE_BAR].bright)
+	    wattron(bottomwin, A_BOLD);
+	wattron(bottomwin, interface_color_pair[TITLE_BAR].pairnum);
+
+	blank_statusbar();
+	mvwaddnstr(bottomwin, 0, 0, msg, actual_x(msg, COLS - 1));
+
+	wattroff(bottomwin, A_BOLD);
+	wattroff(bottomwin, interface_color_pair[TITLE_BAR].pairnum);
+
+	/* Refresh edit window and statusbar before getting input. */
+	wnoutrefresh(edit);
+	wnoutrefresh(bottomwin);
+
+	currmenu = MYESNO;
+	kbinput = get_kbinput(bottomwin);
+        fprintf(fp, "%d\n", kbinput);
+        //fclose(fp);
+#ifndef NANO_TINY
+	if (kbinput == KEY_WINCH)
+	    continue;
+#endif
+        /*49 is 1, 50 is 2 and so on*/
+        
+	func = func_from_key(&kbinput);
+
+	if (func == do_cancel){
+	    ok = -1;
+            return ok;
+        }
+        
+        if(kbinput > 48 && kbinput < 58){
+            p = l.head;
+            i = kbinput - 48;
+            while(i--) if(p) p = p->next;
+            do_output(p->word, strlen(p->word), FALSE);
+            return -1;
+        }
+        
+#ifndef DISABLE_MOUSE
+	else if (kbinput == KEY_MOUSE) {
+		/* We can click on the Yes/No/All shortcut list to
+		 * select an answer. */
+		if (get_mouseinput(&mouse_x, &mouse_y, FALSE) == 0 &&
+			wmouse_trafo(bottomwin, &mouse_y, &mouse_x,
+			FALSE) && mouse_x < (width * 2) &&
+			mouse_y > 0) {
+		    int x = mouse_x / width;
+			/* Calculate the x-coordinate relative to the
+			 * two columns of the Yes/No/All shortcuts in
+			 * bottomwin. */
+		    int y = mouse_y - 1;
+			/* Calculate the y-coordinate relative to the
+			 * beginning of the Yes/No/All shortcuts in
+			 * bottomwin, i.e. with the sizes of topwin,
+			 * edit, and the first line of bottomwin
+			 * subtracted out. */
+
+		    assert(0 <= x && x <= 1 && 0 <= y && y <= 1);
+
+		    /* x == 0 means they clicked Yes or No.  y == 0
+		     * means Yes or All. */
+		    ok = -2 * x * y + x - y + 1;
+
+		    if (ok == 2 && !all)
+			ok = -2;
+		}
+	}
+#endif /* !DISABLE_MOUSE */
+	else if (func == total_refresh) {
+	    total_redraw();
+	    continue;
+	} else {
+		/* Look for the kbinput in the Yes, No and (optionally)
+		 * All strings. */
+		if (strchr(yesstr, kbinput) != NULL)
+		    ok = 1;
+		else if (strchr(nostr, kbinput) != NULL)
+		    ok = 0;
+		else if (all && strchr(allstr, kbinput) != NULL)
+		    ok = 2;
+	}
+        
+        
+    } while (ok == -2);
+
+    currmenu = oldmenu;
+    //free_s_list(&l);
+    return ok;
+}
+
+/*Modified clone of yes/no prompt for dictionary*/
+int do_dictionary_prompt(bool all, const char *msg, tree t, char *str)
+{
+    s_list l;
+    s_node *p;
+    tree grab;
+    int count = 0;
+    int i = 0;
+    int ok = -2, width = 16;
+    const char *yesstr;		/* String of Yes characters accepted. */
+    const char *nostr;		/* Same for No. */
+    const char *allstr;		/* And All, surprise! */
+    int oldmenu = currmenu;
+    char but[8];
+
+    s_init(&l);
+    while((grab = search(t, str, &l)) != NULL){
+        s_append(&l, grab->str);
+        count++;
+    }
+    /*Now partial matched list is prepared*/
+    
+    p = l.head;
+    
     assert(msg != NULL);
 
     /* yesstr, nostr, and allstr are strings of any length.  Each string
@@ -1069,6 +1260,8 @@ int do_yesno_prompt(bool all, const char *msg)
     do {
 	int kbinput;
 	functionptrtype func;
+        i = 0;
+        p = l.head;
 #ifndef DISABLE_MOUSE
 	int mouse_x, mouse_y;
 #endif
@@ -1084,21 +1277,23 @@ int do_yesno_prompt(bool all, const char *msg)
 	    blank_bottombars();
 
 	    /* Now show the ones for "Yes", "No", "Cancel" and maybe "All". */
-	    sprintf(shortstr, " %c", yesstr[0]);
-	    wmove(bottomwin, 1, 0);
-	    onekey(shortstr, _("Yes"), width);
 
 	    if (all) {
 		shortstr[1] = allstr[0];
-		wmove(bottomwin, 1, width);
+		wmove(bottomwin, 2, width);
 		onekey(shortstr, _("All"), width);
 	    }
 
-	    shortstr[1] = nostr[0];
-	    wmove(bottomwin, 2, 0);
-	    onekey(shortstr, _("No"), width);
-
-	    wmove(bottomwin, 2, width);
+            for(i = 0; i < count; i++){
+                sprintf(but, "%d", i + 1);
+                if(i == 0) wmove(bottomwin, 1, 0);
+                else wmove(bottomwin, 1, i * width);
+                if(p){
+                    onekey(but, p->word, width);
+                    p = p->next;
+                }
+            }
+	    wmove(bottomwin, 1, i * width);
 	    onekey("^C", _("Cancel"), width);
 	}
 
@@ -1126,8 +1321,19 @@ int do_yesno_prompt(bool all, const char *msg)
 
 	func = func_from_key(&kbinput);
 
-	if (func == do_cancel)
+	if (func == do_cancel){
 	    ok = -1;
+            return ok;
+        }
+        
+        if(kbinput > 48 && kbinput < 58){
+            p = l.head;
+            i = kbinput - 48;
+            while(i--) if(p) p = p->next;
+            do_output(p->word, strlen(p->word), FALSE);
+            return -1;
+        }
+        
 #ifndef DISABLE_MOUSE
 	else if (kbinput == KEY_MOUSE) {
 		/* We can click on the Yes/No/All shortcut list to
@@ -1174,5 +1380,6 @@ int do_yesno_prompt(bool all, const char *msg)
     } while (ok == -2);
 
     currmenu = oldmenu;
+    free_s_list(&l);
     return ok;
 }

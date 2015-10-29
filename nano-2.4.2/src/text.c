@@ -178,9 +178,6 @@ void do_delete(void)
  * character, and then delete the character under the cursor. */
 void do_backspace(void)
 {
-
-    /*FILEPOINTERUSED*/
-
     
     if(openfile->mark_set == TRUE){
 
