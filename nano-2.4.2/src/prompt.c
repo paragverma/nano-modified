@@ -1050,32 +1050,34 @@ int do_yesno_prompt(bool all, const char *msg)
     s_list l;
     s_node *p;
     tree grab;
-    tree t;
+    tree tr;
     int ok = -2, width = 16;
     const char *yesstr;		/* String of Yes characters accepted. */
     const char *nostr;		/* Same for No. */
     const char *allstr;		/* And All, surprise! */
     int oldmenu = currmenu;
     char but[16];
-    int i;
+    int i, j = 0;
     int count = 0;
+    int t = 0;
     FILE *fp;
-    fp = fopen("prompter.txt", "a");
+    fp = fopen("prompter.txt", "f");
 
     assert(msg != NULL);
 
         s_init(&l);
-        init(&t);
-        add_from_file(&t, "dictionary.txt");
-    while((grab = search(t, "v", &l)) != NULL){
+        init(&tr);
+        add_from_file(&tr, "dictionary.txt");
+    while((grab = search(tr, "f", &l)) != NULL){
         s_append(&l, grab->str);
 
         count++;
+        
     }
     /*Now partial matched list is prepared*/
 
     p = l.head;
-    
+
     /* yesstr, nostr, and allstr are strings of any length.  Each string
      * consists of all single-byte characters accepted as valid
      * characters for that value.  The first value will be the one
@@ -1091,7 +1093,6 @@ int do_yesno_prompt(bool all, const char *msg)
 	int kbinput;
 	functionptrtype func;
         i = 0;
-        p = l.head;
 #ifndef DISABLE_MOUSE
 	int mouse_x, mouse_y;
 #endif
@@ -1115,14 +1116,16 @@ int do_yesno_prompt(bool all, const char *msg)
 		onekey(shortstr, _("All"), width);
 	    }
 
-            for(i = 0; i < count; i++){
+            for(i = 0; i < count && i < 5; i++){
                 sprintf(but, "%d", i + 1);
                 if(i == 0) wmove(bottomwin, 1, 0);
                 else wmove(bottomwin, 1, i * width);
                 if(p){
                     onekey(but, p->word, width);
                     p = p->next;
+                    p = p->next;
                 }
+                j++;
             }
 
 	    wmove(bottomwin, 1, i * width);
@@ -1145,29 +1148,50 @@ int do_yesno_prompt(bool all, const char *msg)
 
 	currmenu = MYESNO;
 	kbinput = get_kbinput(bottomwin);
-        fprintf(fp, "%d\n", kbinput);
+        //fprintf(fp, "%d\n", kbinput);
         //fclose(fp);
 #ifndef NANO_TINY
 	if (kbinput == KEY_WINCH)
 	    continue;
 #endif
         /*49 is 1, 50 is 2 and so on*/
-        
+
 	func = func_from_key(&kbinput);
 
 	if (func == do_cancel){
-	    ok = -1;
+	    ok = 0;
+            free_tree(&tr);
+            free_s_list(&l);
             return ok;
         }
+  
+        if(kbinput == 's'){
+            if(i == 5) {
+                fp = fopen("prompter.txt", "a");
+                fprintf(fp, "Pressed s, now continue hoga\n");
+                fclose(fp);
+                continue;
+            }
+        }
+        if(kbinput <= '0' || kbinput > '0' + count) return -1;
         
-        if(kbinput > 48 && kbinput < 58){
+        if(kbinput > '0' && kbinput <= '0' + count){
             p = l.head;
-            i = kbinput - 48;
-            while(i--) if(p) p = p->next;
+            i = kbinput - '0' - 1;
+            if(j > 5) t = j - 5 + i;
+            else t = i;
+            
+                fp = fopen("prompter.txt", "a");
+                fprintf(fp, " t is %d kbinput is %d j is %d and i is %d\n", t, kbinput, j, i);
+                fclose(fp);
+            while(t--) if(p){
+                        p = p->next;
+                        p = p->next;
+                        }
             do_output(p->word, strlen(p->word), FALSE);
             return -1;
         }
-        
+
 #ifndef DISABLE_MOUSE
 	else if (kbinput == KEY_MOUSE) {
 		/* We can click on the Yes/No/All shortcut list to
@@ -1211,7 +1235,8 @@ int do_yesno_prompt(bool all, const char *msg)
 		else if (all && strchr(allstr, kbinput) != NULL)
 		    ok = 2;
 	}
-        
+        i = 0;
+        p = l.head;
         
     } while (ok == -2);
 
@@ -1220,32 +1245,56 @@ int do_yesno_prompt(bool all, const char *msg)
     return ok;
 }
 
-/*Modified clone of yes/no prompt for dictionary*/
-int do_dictionary_prompt(bool all, const char *msg, tree t, char *str)
+/*Modified clone of yes/no prompt for dictionary
+  Tree received should be initialized.
+ * 
+ */
+int do_dictionary_prompt(bool all, const char *msg, tree tr, char *str)
 {
     s_list l;
     s_node *p;
     tree grab;
-    int count = 0;
-    int i = 0;
     int ok = -2, width = 16;
     const char *yesstr;		/* String of Yes characters accepted. */
     const char *nostr;		/* Same for No. */
     const char *allstr;		/* And All, surprise! */
     int oldmenu = currmenu;
-    char but[8];
+    char but[16];
+    int i, j = 0;
+    int count = 0;
+    int t = 0;
+    char *buf;
+    FILE *fp;
+    buf = str;
+    /*fp = fopen("prompter.txt", "f");
+    fprintf(fp, "%s\n", buf);
+    fclose(fp);*/
+    
+   // statusbar(_(str));
 
+    assert(msg != NULL);
+
+       /* s_init(&l);
+        init(&tr);
+        add_from_file(&tr, "dictionary.txt");
+    while((grab = search(tr, "f", &l)) != NULL){
+        s_append(&l, grab->str);
+
+        count++;
+        
+    }
+
+
+    p = l.head;*/
+    
     s_init(&l);
-    while((grab = search(t, str, &l)) != NULL){
+    while((grab = search(tr, str, &l)) != NULL){
         s_append(&l, grab->str);
         count++;
     }
     /*Now partial matched list is prepared*/
     
     p = l.head;
-    
-    assert(msg != NULL);
-
     /* yesstr, nostr, and allstr are strings of any length.  Each string
      * consists of all single-byte characters accepted as valid
      * characters for that value.  The first value will be the one
@@ -1261,7 +1310,6 @@ int do_dictionary_prompt(bool all, const char *msg, tree t, char *str)
 	int kbinput;
 	functionptrtype func;
         i = 0;
-        p = l.head;
 #ifndef DISABLE_MOUSE
 	int mouse_x, mouse_y;
 #endif
@@ -1278,21 +1326,25 @@ int do_dictionary_prompt(bool all, const char *msg, tree t, char *str)
 
 	    /* Now show the ones for "Yes", "No", "Cancel" and maybe "All". */
 
+
 	    if (all) {
 		shortstr[1] = allstr[0];
-		wmove(bottomwin, 2, width);
+		wmove(bottomwin, 1, width);
 		onekey(shortstr, _("All"), width);
 	    }
 
-            for(i = 0; i < count; i++){
+            for(i = 0; i < count && i < 5; i++){
                 sprintf(but, "%d", i + 1);
                 if(i == 0) wmove(bottomwin, 1, 0);
                 else wmove(bottomwin, 1, i * width);
                 if(p){
                     onekey(but, p->word, width);
                     p = p->next;
+                    p = p->next;
                 }
+                j++;
             }
+
 	    wmove(bottomwin, 1, i * width);
 	    onekey("^C", _("Cancel"), width);
 	}
@@ -1313,27 +1365,50 @@ int do_dictionary_prompt(bool all, const char *msg, tree t, char *str)
 
 	currmenu = MYESNO;
 	kbinput = get_kbinput(bottomwin);
-
+        //fprintf(fp, "%d\n", kbinput);
+        //fclose(fp);
 #ifndef NANO_TINY
 	if (kbinput == KEY_WINCH)
 	    continue;
 #endif
+        /*49 is 1, 50 is 2 and so on*/
 
 	func = func_from_key(&kbinput);
 
 	if (func == do_cancel){
-	    ok = -1;
+	    ok = 0;
+            free_tree(&tr);
+            free_s_list(&l);
             return ok;
         }
+  
+        if(kbinput == 's'){
+            if(i == 5) {
+                /*fp = fopen("prompter.txt", "a");
+                fprintf(fp, "Pressed s, now continue hoga\n");
+                fclose(fp);*/
+                continue;
+            }
+        }
+        if(kbinput <= '0' || kbinput > '0' + count) return -1;
         
-        if(kbinput > 48 && kbinput < 58){
+        if(kbinput > '0' && kbinput <= '0' + count){
             p = l.head;
-            i = kbinput - 48;
-            while(i--) if(p) p = p->next;
+            i = kbinput - '0' - 1;
+            if(j > 5) t = j - 5 + i;
+            else t = i;
+            
+                /*fp = fopen("prompter.txt", "a");
+                fprintf(fp, " t is %d kbinput is %d j is %d and i is %d\n", t, kbinput, j, i);
+                fclose(fp);*/
+            while(t--) if(p){
+                        p = p->next;
+                        p = p->next;
+                        }
             do_output(p->word, strlen(p->word), FALSE);
             return -1;
         }
-        
+
 #ifndef DISABLE_MOUSE
 	else if (kbinput == KEY_MOUSE) {
 		/* We can click on the Yes/No/All shortcut list to
@@ -1377,9 +1452,12 @@ int do_dictionary_prompt(bool all, const char *msg, tree t, char *str)
 		else if (all && strchr(allstr, kbinput) != NULL)
 		    ok = 2;
 	}
+        i = 0;
+        p = l.head;
+        
     } while (ok == -2);
 
     currmenu = oldmenu;
-    free_s_list(&l);
+    //free_s_list(&l);
     return ok;
 }

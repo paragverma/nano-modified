@@ -297,8 +297,7 @@ mcarray mcarr;
 
 /*Dictionary from here*/
 
-tree t;
-
+tree tr;
 void init(tree *t) {
 	*t = NULL;
 }
@@ -500,6 +499,26 @@ void free_tree(tree *t){
 	}
 
 
+}
+
+char* fetch_str(void){
+    int i = 0, j = 0;
+    int x = openfile->current_x;
+    char *str;
+    char *a = openfile->current->data;
+    
+    while((a[x] != ' ') && x != 0){
+        x--;
+        i++;
+    }
+    
+    if(a[x] == ' '){
+        x++;
+        str = (char*)malloc(i + 1);
+        for(j = 0; j < i; j++)
+            str[j] = a[x++];
+        }
+    return str;
 }
 /*dictionaryTill here*/
 
@@ -2037,10 +2056,13 @@ int do_input(bool allow_funcs)
     const sc *s;
     bool have_shortcut;
     /* Read in a character. */
+    int i;
+    char *buf;
     input = get_kbinput(edit);
     fp = fopen("loggerm.txt", "a");
-    fprintf(fp, "%d\n", input);
+    fprintf(fp, "place we want is %d\n", openfile->placewewant);
     fclose(fp);
+
     if(input == 337){
 		mcflag = 1;
                 nofmc++;
@@ -2058,7 +2080,7 @@ int do_input(bool allow_funcs)
 		freemcarray(&mcarr);
                 initmcarray(&mcarr);
                 b_space = 0;
-		statusbar(_("Cursors freed"));
+		statusbar(_("Markers freed"));
 	    	beep();
 	    	//input = get_kbinput(edit);
                 return input;
@@ -2086,6 +2108,55 @@ int do_input(bool allow_funcs)
             return input;
         }
     }
+    
+    if(input == 0){
+        buf = fetch_str();
+            if (ISSET(TEMP_FILE)) {
+	    curs_set(0);
+
+	    /* Warn that the current file has no name. */
+	    statusbar(_("No file name"));
+	    beep();
+
+	    /* Ensure that we see the warning. */
+	    doupdate();
+	    napms(2000);
+
+	    curs_set(1);
+	}
+
+        i = do_dictionary_prompt(FALSE,
+		_("Press the appropriate number, "), tr, buf);
+               fprintf(fp, "%s\n", buf);
+            fclose(fp);
+
+#ifdef DEBUG
+    dump_filestruct(openfile->fileage);
+#endif
+
+    /* If the user chose not to save, or if the user chose to save and
+     * the save succeeded, we're ready to exit. */
+    if (i == 0 || (i == 1 && do_writeout(TRUE))) {
+
+#ifndef NANO_TINY
+	if (ISSET(LOCKING) && openfile->lock_filename)
+	    delete_lockfile(openfile->lock_filename);
+#endif
+
+#ifndef DISABLE_MULTIBUFFER
+	/* Exit only if there are no more open file buffers. */
+	if (!close_buffer(FALSE))
+#endif
+	    finish();
+    /* If the user canceled, we go on. */
+    } else if (i != 1)
+	statusbar(_("Yo"));
+
+    display_main_list();
+
+    }
+    
+    /*Input 0 till here*/
 
 #ifndef NANO_TINY
     if (input == KEY_WINCH)
@@ -2614,10 +2685,10 @@ int main(int argc, char **argv)
 #endif
     SET(USE_MOUSE);
     initmcarray(&mcarr);
-    init(&t);
+    init(&tr);
     fp = fopen("dictionary.txt", "r");
     if(fp == NULL) fp = fopen("dictionary.txt", "a");
-    add_from_file(&t, "dictionary.txt");
+    add_from_file(&tr, "dictionary.txt");
     
 #ifndef DISABLE_MULTIBUFFER
     bool old_multibuffer;

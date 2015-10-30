@@ -1,0 +1,1 @@
+fprintf printf scanf fscanf sprintf sscanf vfprintf vprintf vsprintf fclose fflush fopen freopen remove rename setbuf setvbuf tmpfile tmpnam fgetc fgets fputc fputs getc getchar gets putc putchar puts ungetc fread fwrite include stdio.h string.h stdlib.h innner ithar inma
