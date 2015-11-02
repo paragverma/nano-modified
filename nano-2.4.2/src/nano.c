@@ -408,7 +408,8 @@ int count(tree t) {
 
 int partial_match(char *this, char *that){
 	int i = 0;
-
+        
+        if(this == NULL) return 1;
  	while(this[i] != '\0' && that[i] != '\0'){
 		if(this[i] != that[i]) return 0;
 		i++;
@@ -420,17 +421,34 @@ int partial_match(char *this, char *that){
 
 /*Searches in the tree*/
 /*s_list has to be initialised before*/
+tree le, ri;
+
 tree search(tree t, char *str, s_list *l) {
 	while(t){
+		//printf("While start\n");
+		//if(t) printf("Checking %s\n", t->str);
+		
+		//if(t) printf("Is t->str in mlist? %d\n", if_in_ml(l, t->str));
+		
 		if((partial_match(str, t->str) == 1) && (if_in_ml(l, t->str) == 0)){
+			//printf("Appending %s\n", t->str); 
 			s_append(l, t->str);
+			if(str == NULL){
+				le = search(t->left, NULL, l);
+				ri = search(t->right, NULL, l);
+			}
 			return t;
 		}
+		
+		//printf("Partial matching done\n");
+		if(str == NULL) return NULL;
 			
 		if(str[0] <= t->str[0]) t = t->left;
 		else t = t->right;
 
 	}
+	
+	//printf("End of while loop\n");
 
 	return NULL;
 }
@@ -502,23 +520,69 @@ void free_tree(tree *t){
 }
 
 char* fetch_str(void){
-    int i = 0, j = 0;
+    int i = 0, j = 0, k = 0;
     int x = openfile->current_x;
     char *str;
     char *a = openfile->current->data;
+    int f = 0;
+    int ibflag = 0;
+    int tp;
+    int cp;
+
     
-    while((a[x] != ' ') && x != 0){
-        x--;
+    tp = typepos();
+        
+
+    if(tp == 3 || tp == 4 || tp == 5) return NULL;
+    
+    f = x;
+    
+    if(tp == 1 || tp == 2) f--;
+    
+    while(a[f] != ' ' && x != 0){
+        f--;
         i++;
     }
     
-    if(a[x] == ' '){
-        x++;
-        str = (char*)malloc(i + 1);
-        for(j = 0; j < i; j++)
-            str[j] = a[x++];
+    cp = f;
+    
+    if(tp == 6 || tp == 7){
+        f = x + 1;
+        while(a[f] != ' ' && x != 0){
+            f++;
+            i++;
         }
+    }
+    
+         
+    str = (char*)malloc(i + 1);
+    
+    for(j = cp + 1; j < cp + 1 + i; j++){
+        str[k++] = a[j];
+
+    }
+        str[k] = '\0';
+    
     return str;
+}
+
+int typepos(){
+	int x = openfile->current_x;
+	char *a = openfile->current->data;
+	
+	if((a[x] == '\00') && (a[x - 1] != ' ') && x != 0) return 1;
+	
+	if(a[x] == ' ' && a[x - 1] != ' ' && (a[x + 1] != ' ') && (a[x + 1] != '\00') && x != 0) return 2;
+	
+	if((a[x] == '\00') && (a[x - 1] == ' ')) return 3;
+	
+	if((a[x] == '\00') && (x == 0)) return 4;
+	
+	if((a[x] != ' ') && (a[x] != '\00') && (a[x - 1] != ' ') && (a[x - 1] != '\00') && (a[x + 1] != ' ') && (a[x + 1] != '\00')) return 6;
+	
+	if((a[x] != ' ') && (a[x] != '\00') && (a[x - 1] == ' ') && (a[x + 1] != ' ') && (a[x + 1] != '\00')) return 7;
+	
+	return 0;
 }
 /*dictionaryTill here*/
 
@@ -2059,9 +2123,7 @@ int do_input(bool allow_funcs)
     int i;
     char *buf;
     input = get_kbinput(edit);
-    fp = fopen("loggerm.txt", "a");
-    fprintf(fp, "place we want is %d\n", openfile->placewewant);
-    fclose(fp);
+
 
     if(input == 337){
 		mcflag = 1;
@@ -2070,7 +2132,6 @@ int do_input(bool allow_funcs)
                 sprintf(mcmsg, "Marker no. %d recorded", nofmc);
 		statusbar(_(mcmsg));
 	    	beep();
-	    	//input = get_kbinput(edit);
                 return input;
     }
     
@@ -2082,7 +2143,6 @@ int do_input(bool allow_funcs)
                 b_space = 0;
 		statusbar(_("Markers freed"));
 	    	beep();
-	    	//input = get_kbinput(edit);
                 return input;
     }
     
@@ -2111,6 +2171,8 @@ int do_input(bool allow_funcs)
     
     if(input == 0){
         buf = fetch_str();
+                       //fprintf(fp, "%s\n", buf);
+            //fclose(fp);
             if (ISSET(TEMP_FILE)) {
 	    curs_set(0);
 
@@ -2127,8 +2189,8 @@ int do_input(bool allow_funcs)
 
         i = do_dictionary_prompt(FALSE,
 		_("Press the appropriate number, "), tr, buf);
-               fprintf(fp, "%s\n", buf);
-            fclose(fp);
+               //fprintf(fp, "%s\n", buf);
+            //fclose(fp);
 
 #ifdef DEBUG
     dump_filestruct(openfile->fileage);

@@ -1160,16 +1160,11 @@ int do_yesno_prompt(bool all, const char *msg)
 
 	if (func == do_cancel){
 	    ok = 0;
-            free_tree(&tr);
-            free_s_list(&l);
             return ok;
         }
   
         if(kbinput == 's'){
             if(i == 5) {
-                fp = fopen("prompter.txt", "a");
-                fprintf(fp, "Pressed s, now continue hoga\n");
-                fclose(fp);
                 continue;
             }
         }
@@ -1180,10 +1175,6 @@ int do_yesno_prompt(bool all, const char *msg)
             i = kbinput - '0' - 1;
             if(j > 5) t = j - 5 + i;
             else t = i;
-            
-                fp = fopen("prompter.txt", "a");
-                fprintf(fp, " t is %d kbinput is %d j is %d and i is %d\n", t, kbinput, j, i);
-                fclose(fp);
             while(t--) if(p){
                         p = p->next;
                         p = p->next;
@@ -1241,7 +1232,6 @@ int do_yesno_prompt(bool all, const char *msg)
     } while (ok == -2);
 
     currmenu = oldmenu;
-    //free_s_list(&l);
     return ok;
 }
 
@@ -1263,29 +1253,17 @@ int do_dictionary_prompt(bool all, const char *msg, tree tr, char *str)
     int i, j = 0;
     int count = 0;
     int t = 0;
+    int bs = 0;
     char *buf;
     FILE *fp;
     buf = str;
-    /*fp = fopen("prompter.txt", "f");
-    fprintf(fp, "%s\n", buf);
-    fclose(fp);*/
+    int tp;
+    int we = 0, wc = 0;
     
-   // statusbar(_(str));
+    tp = typepos();
 
+    
     assert(msg != NULL);
-
-       /* s_init(&l);
-        init(&tr);
-        add_from_file(&tr, "dictionary.txt");
-    while((grab = search(tr, "f", &l)) != NULL){
-        s_append(&l, grab->str);
-
-        count++;
-        
-    }
-
-
-    p = l.head;*/
     
     s_init(&l);
     while((grab = search(tr, str, &l)) != NULL){
@@ -1293,7 +1271,25 @@ int do_dictionary_prompt(bool all, const char *msg, tree tr, char *str)
         count++;
     }
     /*Now partial matched list is prepared*/
+           p = l.head;
+           
+
+    if(str == NULL){
+ 
+        count = 0;
+
+        
+        //fprintf(fp, "str is %s\n", str);
+        while(p){
+            count++;
+
+            p = p->next;
+            p = p->next;
+        }
+    }
+    //
     
+
     p = l.head;
     /* yesstr, nostr, and allstr are strings of any length.  Each string
      * consists of all single-byte characters accepted as valid
@@ -1365,8 +1361,7 @@ int do_dictionary_prompt(bool all, const char *msg, tree tr, char *str)
 
 	currmenu = MYESNO;
 	kbinput = get_kbinput(bottomwin);
-        //fprintf(fp, "%d\n", kbinput);
-        //fclose(fp);
+
 #ifndef NANO_TINY
 	if (kbinput == KEY_WINCH)
 	    continue;
@@ -1377,16 +1372,11 @@ int do_dictionary_prompt(bool all, const char *msg, tree tr, char *str)
 
 	if (func == do_cancel){
 	    ok = 0;
-            free_tree(&tr);
-            free_s_list(&l);
             return ok;
         }
   
         if(kbinput == 's'){
             if(i == 5) {
-                /*fp = fopen("prompter.txt", "a");
-                fprintf(fp, "Pressed s, now continue hoga\n");
-                fclose(fp);*/
                 continue;
             }
         }
@@ -1397,14 +1387,40 @@ int do_dictionary_prompt(bool all, const char *msg, tree tr, char *str)
             i = kbinput - '0' - 1;
             if(j > 5) t = j - 5 + i;
             else t = i;
-            
-                /*fp = fopen("prompter.txt", "a");
-                fprintf(fp, " t is %d kbinput is %d j is %d and i is %d\n", t, kbinput, j, i);
-                fclose(fp);*/
+
             while(t--) if(p){
                         p = p->next;
                         p = p->next;
                         }
+            
+            if(tp == 1 || tp == 2){
+                bs = strlen(str);
+                while(bs--) do_backspace();
+            }
+            
+            if(tp == 6 || tp == 7){
+                if(str != NULL){
+
+
+                    we = openfile->current_x;
+
+                    while(openfile->current->data[we] != ' ' && openfile->current->data[we] != '\00'){
+                     we++;
+                        wc++;
+                        do_right();
+                    }
+
+                    we--;
+                    while(openfile->current->data[we] != ' ' && openfile->current->data[we] != '\00'){
+                        do_backspace();
+                        we--;
+                    }
+                
+
+                }
+            }
+            
+            
             do_output(p->word, strlen(p->word), FALSE);
             return -1;
         }
@@ -1458,6 +1474,5 @@ int do_dictionary_prompt(bool all, const char *msg, tree tr, char *str)
     } while (ok == -2);
 
     currmenu = oldmenu;
-    //free_s_list(&l);
     return ok;
 }
