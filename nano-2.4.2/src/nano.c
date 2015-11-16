@@ -107,10 +107,7 @@ void backspace_mc(mcarray *p){
         int c_at_lastline = 0;
 	mcpositions *q = p->head;
 	linestruct *f = openfile->fileage;
-        FILE *fp;
-        fp = fopen("log.txt", "a");
         
-        //decrement_xcor_f_sl(p, y_orig, x_orig);
 	while(q != NULL){
             
 		do_first_line();
@@ -119,7 +116,6 @@ void backspace_mc(mcarray *p){
                 q->x_shift--;
 		y = q->ycor;
 
-                fprintf(fp, "x is %d and y is %d\n", x, y);
                     for(j = 0; j < y; j++){
                         do_down_void();
                     }
@@ -130,9 +126,7 @@ void backspace_mc(mcarray *p){
                 
                 decrement_xcor_f_sl(p, y, x);
                 do_deletion(REPLACE);
-                //do_backspace();
-                //do_deletion(INSERT);
-                //do_deletion(CUT);
+
               q = q->next;
             }
         
@@ -147,7 +141,7 @@ void backspace_mc(mcarray *p){
                     for(i = 0; i < check_ycor_mcandcc(p, x_orig, y_orig); i++){
                         do_left();
                     }
-        fclose(fp);
+
         return;
     
 }
@@ -215,16 +209,7 @@ int check_ycor_mcandcc(mcarray *p, size_t x_orig, ssize_t y_orig){
     
     return nofc;
 }
-/*
-q = (0,0) (1,1) (1,5)
-c
-0 1 2 3 4 5 6
-  c       c       xco = 1, yco = 1  
-0 1 2 3 4 5 6
-0 1 2 3 4 5 6
-0 1 2 3 4 5 6
-0 1 2 3 4 5 6
- */
+
 /*Increments xcors of all cursors in front the the current 
     cursor in the same line by 1*/
 void increment_xcor_f_sl(mcarray *p, ssize_t yco, size_t xco){
@@ -238,7 +223,7 @@ void increment_xcor_f_sl(mcarray *p, ssize_t yco, size_t xco){
 }
 
 void printoptocursors(mcarray *p, size_t kbinput_len, char* output){
-        FILE *fp;
+
 	size_t x;
 	ssize_t y;
         size_t x_orig = openfile->current_x;
@@ -538,13 +523,15 @@ char* fetch_str(void){
     f = x;
     
     if(tp == 1 || tp == 2) f--;
-    
-    while(a[f] != ' ' && x != 0){
+        
+    while(a[f] != ' ' && x != 0 && f >= 0){
         f--;
         i++;
     }
     
     cp = f;
+    
+    
     
     if(tp == 6 || tp == 7){
         f = x + 1;
@@ -562,6 +549,7 @@ char* fetch_str(void){
 
     }
         str[k] = '\0';
+        if(k == 0) return NULL;
     
     return str;
 }
@@ -578,7 +566,8 @@ int typepos(){
 	
 	if((a[x] == '\00') && (x == 0)) return 4;
 	
-	if((a[x] != ' ') && (a[x] != '\00') && (a[x - 1] != ' ') && (a[x - 1] != '\00') && (a[x + 1] != ' ') && (a[x + 1] != '\00')) return 6;
+	if((a[x] != ' ') && (a[x] != '\00') && (a[x - 1] != ' ') && (a[x - 1] != '\00')) return 6;
+
 	
 	if((a[x] != ' ') && (a[x] != '\00') && (a[x - 1] == ' ') && (a[x + 1] != ' ') && (a[x + 1] != '\00')) return 7;
 	
@@ -2186,38 +2175,25 @@ int do_input(bool allow_funcs)
 
 	    curs_set(1);
 	}
+        
+
 
         i = do_dictionary_prompt(FALSE,
 		_("Press the appropriate number, "), tr, buf);
                //fprintf(fp, "%s\n", buf);
             //fclose(fp);
-
-#ifdef DEBUG
-    dump_filestruct(openfile->fileage);
-#endif
-
-    /* If the user chose not to save, or if the user chose to save and
-     * the save succeeded, we're ready to exit. */
-    if (i == 0 || (i == 1 && do_writeout(TRUE))) {
-
-#ifndef NANO_TINY
-	if (ISSET(LOCKING) && openfile->lock_filename)
-	    delete_lockfile(openfile->lock_filename);
-#endif
-
-#ifndef DISABLE_MULTIBUFFER
-	/* Exit only if there are no more open file buffers. */
-	if (!close_buffer(FALSE))
-#endif
-	    finish();
-    /* If the user canceled, we go on. */
-    } else if (i != 1)
-	statusbar(_("Yo"));
+        
+        if(buf != NULL) do_left();
+        if(i == 1 || i == 2 || i == 6 || i == 7) do_right();
+        if(i == 1 || i == 6) input = 32;
+        if(i == 3 || i == 4) input = get_kbinput(edit);
+ 
+        blank_statusbar();
 
     display_main_list();
 
     }
-    
+
     /*Input 0 till here*/
 
 #ifndef NANO_TINY
@@ -2245,7 +2221,7 @@ int do_input(bool allow_funcs)
     /* If we got a shortcut from the main list, or a "universal"
      * edit window shortcut, set have_shortcut to TRUE. */
     have_shortcut = (s != NULL);
-    
+
 
     /* If we got a non-high-bit control key, a meta key sequence, or a
      * function key, and it's not a shortcut or toggle, throw it out. */
