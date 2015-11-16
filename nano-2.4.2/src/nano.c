@@ -19,6 +19,16 @@
  *   02110-1301, USA.                                                     *
  *                                                                        *
  **************************************************************************/
+ 
+/*
+Revision          15/11/2015        Revised by: Parag Verma
+
+Added code and functions for printing text to multiple locations,
+basic word completion.
+
+Modified input function to implement the features.
+
+*/
 
 #include "proto.h"
 

@@ -20,6 +20,13 @@
  *   02110-1301, USA.                                                     *
  *                                                                        *
  **************************************************************************/
+ 
+/*
+Revision          15/11/2015        Revised by: Parag Verma
+
+Added code for prompt used in word completion.
+
+*/
 
 #include "proto.h"
 

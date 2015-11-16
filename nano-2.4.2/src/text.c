@@ -20,6 +20,14 @@
  *   02110-1301, USA.                                                     *
  *                                                                        *
  **************************************************************************/
+ 
+ 
+/*
+Revision          15/11/2015        Revised by: Parag Verma
+
+Modified backspace and tab functions to cut marked text.
+
+*/
 
 #include "proto.h"
 
