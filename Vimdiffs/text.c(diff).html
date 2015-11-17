@@ -1,0 +1,160 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>diff</title>
+<meta name="Generator" content="Vim/7.4">
+<meta name="plugin-version" content="vim7.4_v1">
+<meta name="settings" content="whole_filler,use_css,no_foldcolumn,prevent_copy=">
+<meta name="colorscheme" content="none">
+<style type="text/css">
+<!--
+pre { font-family: monospace; color: #000000; background-color: #ffffff; }
+body { font-family: monospace; color: #000000; background-color: #ffffff; }
+* { font-size: 1em; }
+.Comment { color: #8080ff; }
+.Constant { color: #ff6060; }
+.Folded { color: #8080ff; background-color: #ffffff; padding-bottom: 1px; }
+.Statement { color: #ffff00; }
+.PreProc { color: #ff40ff; }
+.Type { color: #00ff00; }
+.DiffAdd { background-color: #8080ff; padding-bottom: 1px; }
+.DiffChange { background-color: #ff40ff; padding-bottom: 1px; }
+.DiffDelete { color: #8080ff; background-color: #00ffff; padding-bottom: 1px; font-weight: bold; }
+.DiffText { background-color: #ff6060; padding-bottom: 1px; font-weight: bold; }
+-->
+<!--
+table { table-layout: fixed; }
+html, body, table, tbody { width: 100%; margin: 0; padding: 0; }
+th, td { width: 50.0%; }
+td div { overflow: auto; }
+-->
+</style>
+<script type='text/javascript'>
+<!--
+
+/* function to open any folds containing a jumped-to line before jumping to it */
+function JumpToLine()
+{
+  var lineNum;
+  lineNum = window.location.hash;
+  lineNum = lineNum.substr(1); /* strip off '#' */
+
+  if (lineNum.indexOf('L') == -1) {
+    lineNum = 'L'+lineNum;
+  }
+  if (lineNum.indexOf('W') == -1) {
+    lineNum = 'W1'+lineNum;
+  }
+  lineElem = document.getElementById(lineNum);
+  /* Always jump to new location even if the line was hidden inside a fold, or
+   * we corrected the raw number to a line ID.
+   */
+  if (lineElem) {
+    lineElem.scrollIntoView(true);
+  }
+  return true;
+}
+if ('onhashchange' in window) {
+  window.onhashchange = JumpToLine;
+}
+
+-->
+</script>
+</head>
+<body>
+<table border='1' width='100%' id='vimCodeElement'>
+<tr>
+<th>text.c</th>
+<th>tex_ort.c</th>
+</tr><tr>
+<td valign="top"><div>
+<pre>
+<span class="Folded">+-- 16 lines: $Id: text.c 5275 2015-06-28 14:12:25Z bens $ -------------------------------------------------------------------------------------------------------------------------------------------------</span>
+<span class="Comment"> *   You should have received a copy of the GNU General Public License    *</span>
+<span class="Comment"> *   along with this program; if not, write to the Free Software          *</span>
+<span class="Comment"> *   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA            *</span>
+<span class="Comment"> *   02110-1301, USA.                                                     *</span>
+<span class="Comment"> *                                                                        *</span>
+<span class="Comment"> *************************************************************************</span><span class="Comment">*/</span>
+<span class="DiffAdd"> </span><span class="DiffAdd">                                                                                                                                                                                                           </span>
+<span class="DiffAdd"> </span><span class="DiffAdd">                                                                                                                                                                                                           </span>
+<span class="Comment DiffAdd">/*</span><span class="DiffAdd">                                                                                                                                                                                                          </span>
+<span class="Comment DiffAdd">Revision          15/11/2015        Revised by: Parag Verma</span><span class="DiffAdd">                                                                                                                                                 </span>
+<span class="DiffAdd"> </span><span class="DiffAdd">                                                                                                                                                                                                           </span>
+<span class="Comment DiffAdd">Modified backspace and tab functions to cut marked text.</span><span class="DiffAdd">                                                                                                                                                    </span>
+<span class="DiffAdd"> </span><span class="DiffAdd">                                                                                                                                                                                                           </span>
+<span class="Comment DiffAdd">*/</span><span class="DiffAdd">                                                                                                                                                                                                          </span>
+
+<span class="PreProc">#include </span><span class="Constant">&quot;proto.h&quot;</span>
+
+<span class="PreProc">#include </span><span class="Constant">&lt;stdio.h&gt;</span>
+<span class="PreProc">#include </span><span class="Constant">&lt;signal.h&gt;</span>
+<span class="PreProc">#include </span><span class="Constant">&lt;unistd.h&gt;</span>
+<span class="Folded">+--146 lines: #include &lt;string.h&gt;---------------------------------------------------------------------------------------------------------------------------------------------------------------------------</span>
+}
+
+<span class="Comment">/*</span><span class="Comment"> Backspace over one character.  That is, move the cursor left one</span>
+<span class="Comment"> * character, and then delete the character under the cursor. </span><span class="Comment">*/</span>
+<span class="Type">void</span> do_backspace(<span class="Type">void</span>)
+{
+<span class="DiffDelete">------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</span>
+<span class="DiffDelete">------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</span>
+<span class="DiffDelete">------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</span>
+
+    <span class="Statement">if</span>(openfile-&gt;mark_set == TRUE){
+
+            do_cut_text_void();
+            openfile-&gt;mark_set = FALSE;
+            <span class="Statement">return</span>;
+<span class="Folded">+--3287 lines: }--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</span>
+</pre>
+</div></td>
+<td valign="top"><div>
+<pre>
+<span class="Folded">+-- 16 lines: $Id: text.c 5275 2015-06-28 14:12:25Z bens $ -------------------------------------------------------------------------------------------------------------------------------------------------</span>
+<span class="Comment"> *   You should have received a copy of the GNU General Public License    *</span>
+<span class="Comment"> *   along with this program; if not, write to the Free Software          *</span>
+<span class="Comment"> *   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA            *</span>
+<span class="Comment"> *   02110-1301, USA.                                                     *</span>
+<span class="Comment"> *                                                                        *</span>
+<span class="Comment"> *************************************************************************</span><span class="Comment">*/</span>
+<span class="DiffDelete">------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</span>
+<span class="DiffDelete">------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</span>
+<span class="DiffDelete">------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</span>
+<span class="DiffDelete">------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</span>
+<span class="DiffDelete">------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</span>
+<span class="DiffDelete">------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</span>
+<span class="DiffDelete">------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</span>
+<span class="DiffDelete">------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</span>
+
+<span class="PreProc">#include </span><span class="Constant">&quot;proto.h&quot;</span>
+
+<span class="PreProc">#include </span><span class="Constant">&lt;stdio.h&gt;</span>
+<span class="PreProc">#include </span><span class="Constant">&lt;signal.h&gt;</span>
+<span class="PreProc">#include </span><span class="Constant">&lt;unistd.h&gt;</span>
+<span class="Folded">+--146 lines: #include &lt;string.h&gt;---------------------------------------------------------------------------------------------------------------------------------------------------------------------------</span>
+}
+
+<span class="Comment">/*</span><span class="Comment"> Backspace over one character.  That is, move the cursor left one</span>
+<span class="Comment"> * character, and then delete the character under the cursor. </span><span class="Comment">*/</span>
+<span class="Type">void</span> do_backspace(<span class="Type">void</span>)
+{
+<span class="DiffAdd"> </span><span class="DiffAdd">                                                                                                                                                                                                           </span>
+<span class="DiffAdd">    </span><span class="Comment DiffAdd">/*</span><span class="Comment DiffAdd">FILEPOINTERUSED</span><span class="Comment DiffAdd">*/</span><span class="DiffAdd">                                                                                                                                                                                     </span>
+<span class="DiffAdd"> </span><span class="DiffAdd">                                                                                                                                                                                                           </span>
+
+    <span class="Statement">if</span>(openfile-&gt;mark_set == TRUE){
+
+            do_cut_text_void();
+            openfile-&gt;mark_set = FALSE;
+            <span class="Statement">return</span>;
+<span class="Folded">+--3287 lines: }--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</span>
+</pre>
+</div></td>
+</tr>
+</table>
+</body>
+</html>
+<!-- vim: set foldmethod=manual : -->
+
