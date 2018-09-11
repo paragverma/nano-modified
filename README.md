@@ -13,3 +13,7 @@
 3\) ./configure  
 4\) make  
 5\) make install  
+
+#### Requirements
+- gcc compiler
+- ncurses library
