@@ -8,8 +8,8 @@
 
 #### How to compile and install nano
 
-1. Download the source code in the nano-2.4.2 folder:
-2. cd nano-2.4.2
-3. ./configure
-4. make
-5. make install
+1) Download the source code in the nano-2.4.2 folder:
+2) cd nano-2.4.2
+3) ./configure
+4) make
+5) make install
