@@ -17,3 +17,4 @@
 #### Requirements
 - gcc compiler
 - ncurses library
+- build-essential package (on Debian based environments) or similar to build the source
